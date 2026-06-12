@@ -1,0 +1,55 @@
+﻿# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+pip-log.txt
+.env
+.venv/
+venv/
+ENV/
+env/
+*.log
+
+# === IDE ===
+.idea/
+
+*.swp
+*.swo
+*~
+.DS_Store
+
+# === LangGraph / PostgreSQL checkpoints ===
+checkpoints/
+*.db
+*.sqlite3
+
+# === Ollama / Modèles locaux ===
+models/
+*.gguf
+*.bin
+*.safetensors
+
+# === Streamlit ===
+.streamlit/
+
+
+
+# === Misc ===
+fastapi-service/GraphState   ← résidu à ignorer
