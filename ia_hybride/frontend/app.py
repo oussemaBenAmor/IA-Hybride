@@ -43,6 +43,45 @@ FALLBACK_TECH_LABELS = {
     "E": "Type E — ODM indisponible",
 }
 
+# ── Champs PERTINENTS par cas (utilisés par les règles ODM ou fournis par l'user) ──
+# On n'affiche dans le panneau XAI que les paramètres qui ont un sens pour le cas :
+# soit utilisés dans les règles, soit fournis explicitement. Les champs optionnels
+# jamais renseignés ni utilisés (ex: motif en conso, versement_mensuel en assurance)
+# ne sont PAS affichés.
+RELEVANT_FIELDS = {
+    "credit_immobilier":   ["montant", "duree_mois", "revenu_mensuel", "age", "apport"],
+    "credit_consommation": ["montant", "duree_mois", "revenu_mensuel"],
+    "assurance_vie":       ["operation", "age", "montant_initial"],
+    "carte_bancaire":      ["operation", "plafond_souhaite", "type_carte"],
+    "virement":            ["type_virement", "montant", "iban", "beneficiaire"],
+}
+
+# Libellés lisibles pour le panneau (optionnel : sinon on affiche la clé brute)
+PARAM_LABELS = {
+    "montant":           "Montant",
+    "duree_mois":        "Durée (mois)",
+    "revenu_mensuel":    "Revenu mensuel",
+    "age":               "Âge",
+    "apport":            "Apport",
+    "operation":         "Opération",
+    "montant_initial":   "Versement initial",
+    "plafond_souhaite":  "Plafond souhaité",
+    "type_carte":        "Type de carte",
+    "type_virement":     "Type de virement",
+    "iban":              "IBAN",
+    "beneficiaire":      "Bénéficiaire",
+}
+
+
+def _is_meaningful(v) -> bool:
+    """Une valeur est affichable si elle a été réellement renseignée."""
+    if v is None:
+        return False
+    if isinstance(v, str) and v.strip() == "":
+        return False
+    return True
+
+
 # Hauteur (px) de la zone de conversation défilante
 CHAT_HEIGHT = 480
 
@@ -182,14 +221,22 @@ with col_xai:
                     text=f"{item['case']} — {float(item['score']):.2%}"
                 )
 
+        # ── Paramètres extraits : on lit extracted_params (vraie source) et on
+        #    n'affiche que les champs PERTINENTS au cas ET réellement renseignés. ──
         st.subheader("🔎 Paramètres extraits")
-        if trace.get("odm_decision") and trace.get("case_selected"):
-            odm = trace.get("odm_decision", {})
-            params = odm.get("params") or odm.get("details") or {}
-            if params:
-                for k, v in params.items():
-                    if v is not None:
-                        st.write(f"- **{k}** : {v}")
+        params = trace.get("extracted_params") or {}
+        case = trace.get("case_selected")
+
+        if params and case:
+            allowed = RELEVANT_FIELDS.get(case, list(params.keys()))
+            shown = {
+                k: v for k, v in params.items()
+                if k in allowed and _is_meaningful(v)
+            }
+            if shown:
+                for k, v in shown.items():
+                    label = PARAM_LABELS.get(k, k)
+                    st.write(f"- **{label}** : {v}")
             else:
                 st.write("—")
         elif trace.get("params_collection_needed"):

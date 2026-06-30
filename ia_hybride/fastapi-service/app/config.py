@@ -35,8 +35,8 @@ class Settings(BaseSettings):
     ollama_keep_alive: str = "30m"
 
 
-# ── Spring Boot / ODM ─────────────────────────────────────────────────
-    spring_boot_url: str = "http://localhost:8080"
+    # ── Spring Boot / ODM ─────────────────────────────────────────────────
+    spring_boot_url: str = "http://localhost:8081"
     odm_request_timeout_sec: float = 8.0    # timeout d'une requête ODM
     odm_retry_window_sec: float = 30.0      # fenêtre totale de retry
     odm_wait_min_sec: float = 1.0

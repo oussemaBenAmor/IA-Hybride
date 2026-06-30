@@ -4,9 +4,20 @@ Nœud de validation : validation STRUCTURELLE (types, présence des champs requi
 pour pouvoir appeler l'ODM). La cohérence MÉTIER (seuils d'éligibilité, montants
 minimaux, etc.) n'est PAS ici : elle appartient au BRMS (ODM).
 
-CORRECTIF : `duree_mois` est désormais REQUIS pour le crédit consommation.
-Sans durée, le mock ODM calculait mensualité = montant (remboursement en 1 mois)
-→ taux d'endettement absurde (283%) et refus injustifié.
+CORRECTIF duree_mois : requis pour le crédit consommation (sinon mensualité
+absurde côté calcul → refus injustifié).
+
+CORRECTIF "champs manquants" (Bug 1) : on n'appelle ODM que lorsque TOUS les
+champs nécessaires sont présents. Certains champs sont requis de façon
+CONDITIONNELLE (ils ne comptent que selon la valeur d'un autre champ) :
+  - assurance_vie : `montant_initial` requis UNIQUEMENT si operation == "souscription".
+  - carte_bancaire : `plafond_souhaite` requis UNIQUEMENT si operation == "plafond".
+Sans ça, un montant/plafond absent était transformé en 0 côté Java, et une règle
+ODM se déclenchait à tort (ex : "versement initial < 1000" avec 0 → REFUSE).
+
+CORRECTIF "langage humain" : les questions posées à l'utilisateur n'emploient
+plus de jargon technique ("operation", "type_virement"). Pour les champs à choix
+fermé, on propose explicitement les options ("souscription, versement ou rachat").
 """
 import time
 import logging
@@ -18,29 +29,58 @@ logger = logging.getLogger("validation")
 
 MAX_RETRIES = 3
 
-# Champs sans lesquels l'appel ODM n'a pas de sens → on les collecte auprès de l'user.
+# ── Champs requis INCONDITIONNELS par cas ─────────────────────────────────────
+# (toujours nécessaires pour appeler l'ODM, quelle que soit la sous-opération)
 REQUIRED_FIELDS: dict[str, list[str]] = {
-    "credit_immobilier":   ["montant", "duree_mois", "revenu_mensuel"],
-    "credit_consommation": ["montant", "duree_mois", "revenu_mensuel"],   # duree_mois AJOUTÉ
-    "assurance_vie":       [],
-    "carte_bancaire":      [],
-    "virement":            ["montant"],
+    "credit_immobilier":   ["montant", "duree_mois", "revenu_mensuel", "age"],
+    "credit_consommation": ["montant", "duree_mois", "revenu_mensuel"],
+    "assurance_vie":       ["operation", "age"],
+    "carte_bancaire":      ["operation"],
+    "virement":            ["type_virement", "montant"],
 }
 
-FIELD_LABELS: dict[str, str] = {
-    "montant":           "le montant souhaité (en euros)",
-    "duree_mois":        "la durée de remboursement souhaitée (en mois)",
-    "revenu_mensuel":    "votre revenu mensuel net (en euros)",
-    "apport":            "votre apport personnel (en euros)",
-    "age":               "votre âge",
-    "motif":             "le motif de votre demande",
-    "beneficiaire":      "le nom du bénéficiaire",
-    "iban":              "l'IBAN du bénéficiaire",
-    "type_carte":        "le type de carte (Visa ou Mastercard)",
-    "plafond":           "le plafond souhaité (en euros)",
-    "montant_initial":   "le versement initial (en euros)",
-    "versement_mensuel": "le versement mensuel souhaité (en euros)",
-    "duree_ans":         "la durée du contrat (en années)",
+
+# ── Requis CONDITIONNELS : (champ requis) seulement si (champ_test == valeur) ──
+# Format : case -> liste de (champ_declencheur, valeur_declencheuse, champ_requis)
+CONDITIONAL_REQUIRED: dict[str, list[tuple[str, str, str]]] = {
+    "assurance_vie": [
+        ("operation", "souscription", "montant_initial"),
+    ],
+    "carte_bancaire": [
+        ("operation", "plafond", "plafond_souhaite"),
+    ],
+}
+
+
+# ── Questions en LANGAGE HUMAIN ───────────────────────────────────────────────
+# Pour chaque champ, une formulation naturelle. Les champs à CHOIX FERMÉ
+# proposent directement les options possibles (l'utilisateur n'a pas à deviner
+# le vocabulaire métier).
+FIELD_QUESTIONS: dict[str, str] = {
+    # Numériques / texte libre
+    "montant":           "quel montant souhaitez-vous (en euros)",
+    "duree_mois":        "sur quelle durée souhaitez-vous étaler le remboursement (en mois)",
+    "revenu_mensuel":    "quel est votre revenu mensuel net (en euros)",
+    "apport":            "de quel apport personnel disposez-vous (en euros)",
+    "age":               "quel est votre âge",
+    "montant_initial":   "quel montant souhaitez-vous verser au départ (en euros)",
+    "versement_mensuel": "quel versement mensuel envisagez-vous (en euros)",
+    "duree_ans":         "sur combien d'années souhaitez-vous souscrire",
+    "plafond_souhaite":  "quel plafond souhaitez-vous pour votre carte (en euros)",
+    "beneficiaire":      "à quel bénéficiaire souhaitez-vous envoyer l'argent",
+    "iban":              "quel est l'IBAN du bénéficiaire",
+
+    # Choix fermés → on propose les options en clair
+    "operation": None,        # géré dynamiquement par cas (voir _human_question)
+    "type_virement":         "s'agit-il d'un virement SEPA, instantané, international ou programmé",
+    "type_carte":            "votre carte est-elle une Visa ou une Mastercard",
+}
+
+# Les options d'"operation" diffèrent selon le cas métier → formulation dédiée.
+OPERATION_QUESTION_BY_CASE: dict[str, str] = {
+    "assurance_vie":  "souhaitez-vous effectuer une souscription, un versement ou un rachat",
+    "carte_bancaire": "souhaitez-vous faire opposition, modifier le plafond, "
+                      "renouveler ou débloquer votre carte",
 }
 
 _CASE_LABELS = {
@@ -50,6 +90,59 @@ _CASE_LABELS = {
     "carte_bancaire":      "carte bancaire",
     "virement":            "virement",
 }
+
+
+def _human_question(case_name: str, field: str) -> str:
+    """Renvoie la formulation humaine d'UN champ, en tenant compte du cas pour
+    les champs à choix fermé dépendants du cas (operation)."""
+    if field == "operation":
+        return OPERATION_QUESTION_BY_CASE.get(
+            case_name, "quelle opération souhaitez-vous effectuer"
+        )
+    q = FIELD_QUESTIONS.get(field)
+    if q:
+        return q
+    # Fallback : si un champ n'a pas de formulation dédiée, on reste neutre.
+    return f"pourriez-vous préciser {field}"
+
+
+def _build_question(case_name: str, missing: list) -> str:
+    """Construit une question naturelle pour un ou plusieurs champs manquants."""
+    label = _CASE_LABELS.get(case_name, case_name)
+    human = [_human_question(case_name, f) for f in missing]
+
+    if len(human) == 1:
+        return (
+            f"Pour traiter votre demande de {label}, {human[0]} ?"
+        )
+
+    # Plusieurs champs : on enchaîne proprement.
+    parts = " ; ".join(human[:-1]) + f" ; et enfin {human[-1]}"
+    return (
+        f"Pour traiter votre demande de {label}, j'aurais besoin de quelques "
+        f"précisions : {parts} ?"
+    )
+
+
+def _compute_missing(case_name: str, vd: dict) -> list[str]:
+    """Champs manquants = requis inconditionnels absents + requis conditionnels
+    déclenchés et absents. L'ordre préserve : inconditionnels d'abord."""
+    missing: list[str] = []
+
+    # 1) Requis inconditionnels
+    for f in REQUIRED_FIELDS.get(case_name, []):
+        if vd.get(f) is None:
+            missing.append(f)
+
+    # 2) Requis conditionnels
+    for trigger_field, trigger_value, required_field in CONDITIONAL_REQUIRED.get(case_name, []):
+        actual = vd.get(trigger_field)
+        actual_norm = str(actual).strip().lower() if actual is not None else None
+        if actual_norm == trigger_value and vd.get(required_field) is None:
+            if required_field not in missing:
+                missing.append(required_field)
+
+    return missing
 
 
 def validation_node(state: GraphState) -> GraphState:
@@ -73,14 +166,12 @@ def validation_node(state: GraphState) -> GraphState:
         validated = schema_class(**filtered)
         validated_dict = validated.model_dump()
 
-        # ── Champs requis manquants → collecte auprès de l'utilisateur ──────
-        required = REQUIRED_FIELDS.get(case_name, [])
-        missing  = [f for f in required if validated_dict.get(f) is None]
-        elapsed  = (time.time() - start) * 1000
+        # ── Champs requis (inconditionnels + conditionnels) ────────────────
+        missing = _compute_missing(case_name, validated_dict)
+        elapsed = (time.time() - start) * 1000
 
         if missing:
-            labels   = [FIELD_LABELS.get(f, f) for f in missing]
-            question = _build_question(case_name, missing, labels)
+            question = _build_question(case_name, missing)
             logger.info("params manquants pour %s : %s", case_name, missing)
             return {
                 **state,
@@ -113,7 +204,7 @@ def validation_node(state: GraphState) -> GraphState:
                 "retry_count":     retry_count,
                 "fallback_type":   "C",
                 "fallback_reason": f"Validation échouée {MAX_RETRIES} fois : {e}",
-                "response_text":   "Les paramètres fournis sont invalides après plusieurs tentatives.",
+                "response_text":   "Les informations fournies n'ont pas pu être validées après plusieurs tentatives.",
                 "latency_ms":      {**state.get("latency_ms", {}), "validation": elapsed},
             }
 
@@ -123,14 +214,3 @@ def validation_node(state: GraphState) -> GraphState:
             "validation_errors": [str(e)],
             "latency_ms":        {**state.get("latency_ms", {}), "validation": elapsed},
         }
-
-
-def _build_question(case_name: str, missing: list, labels: list) -> str:
-    label = _CASE_LABELS.get(case_name, case_name)
-    if len(missing) == 1:
-        return f"Pour traiter votre demande de {label}, pourriez-vous m'indiquer {labels[0]} ?"
-    parts = ", ".join(labels[:-1]) + f" et {labels[-1]}"
-    return (
-        f"Pour traiter votre demande de {label}, j'ai besoin de quelques "
-        f"informations supplémentaires : {parts}."
-    )

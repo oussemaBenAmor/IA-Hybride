@@ -37,6 +37,7 @@ class ChatResponse(BaseModel):
     fallback_type:            str | None
     rules_fired:              list | None
     odm_decision:             dict | None
+    extracted_params:         dict | None = None
     latency_ms:               dict
     clarification_needed:     bool
     clarification_question:   str | None
@@ -117,6 +118,43 @@ GREETING_REPLY = (
 )
 THANKS_REPLY  = "Avec plaisir ! N'hésitez pas si vous avez d'autres questions bancaires. 😊"
 GOODBYE_REPLY = "Au revoir, et merci de votre visite ! À bientôt. 👋"
+
+
+# ── CAPABILITIES — "que faites-vous ?", "quels services ?" → réponse détaillée ──
+CAPABILITY_TRIGGERS = (
+    "quels services", "quels sont les services", "que proposez", "que proposes",
+    "que faites-vous", "que faites vous", "que fais-tu", "que fais tu",
+    "qu'est-ce que tu peux faire", "qu'est ce que tu peux faire",
+    "quelles fonctionnalités", "quelles fonctionnalites", "tes services",
+    "vos services", "comment peux-tu m'aider", "comment peux tu m'aider",
+    "tu sers à quoi", "tu sers a quoi", "à quoi tu sers", "a quoi tu sers",
+    "quelles sont vos offres", "qu'offrez-vous", "qu'offrez vous",
+    "que peux-tu faire", "que peux tu faire", "tu fais quoi", "tu gères quoi",
+    "tu geres quoi",
+)
+
+CAPABILITIES_REPLY = (
+    "Je suis votre conseiller bancaire virtuel. Voici tout ce que je peux traiter :\n\n"
+    "🏠 **Crédit immobilier** — financer l'achat d'une maison, d'un appartement, "
+    "un investissement locatif ou une construction, et estimer votre capacité d'emprunt.\n\n"
+    "🚗 **Crédit à la consommation** — prêt personnel pour une voiture, des travaux, "
+    "des loisirs ou un besoin ponctuel.\n\n"
+    "📈 **Assurance vie** — souscription d'un contrat, versement libre ou rachat "
+    "(partiel ou total), pour épargner ou préparer votre retraite.\n\n"
+    "💳 **Carte bancaire** — faire opposition après une perte ou un vol, modifier "
+    "votre plafond, renouveler ou débloquer votre carte.\n\n"
+    "💸 **Virement** — envoyer de l'argent (SEPA, instantané ou international) "
+    "vers un bénéficiaire.\n\n"
+    "Que souhaitez-vous faire ?"
+)
+
+
+def _is_capability_question(text: str) -> bool:
+    """Détecte une question sur les services offerts (méta, pas un cas métier)."""
+    t = text.lower().strip(" !.?,")
+    if len(t) > 80:
+        return False
+    return any(trigger in t for trigger in CAPABILITY_TRIGGERS)
 
 _FUZZY_THRESHOLD = 75   # tolérance fautes de frappe sur le premier mot
 
@@ -269,6 +307,21 @@ def chat(request: ChatRequest):
             params_collection_needed=False, params_question=None,
         )
 
+    # ── CAPABILITIES — "quels services ?" → réponse détaillée, sans graphe ──
+    # On ne court-circuite PAS une collecte en cours (clarification / params).
+    elif _is_capability_question(user_reply) \
+            and not prev_values.get("clarification_needed") \
+            and not prev_values.get("params_collection_needed"):
+        logger.info("question capacités détectée → réponse directe")
+        return ChatResponse(
+            session_id=session_id,
+            response=CAPABILITIES_REPLY,
+            case_selected=None, confidence=None, fallback_type=None,
+            rules_fired=None, odm_decision=None, latency_ms={},
+            clarification_needed=False, clarification_question=None,
+            params_collection_needed=False, params_question=None,
+        )
+
     # ── CAS 1 — réponse à une clarification de cas (résolution lexicale) ─────
     elif prev_values.get("clarification_needed"):
         top2      = prev_values.get("top2_scores", []) or []
@@ -326,6 +379,7 @@ def chat(request: ChatRequest):
                 text            = user_reply,
                 existing_params = existing_params,
                 missing_fields  = missing_fields,
+                question_asked  = question_asked,
             )
             merged_params = {**existing_params, **{k: v for k, v in new_params.items() if v is not None}}
             logger.info("params reçus %s → fusionnés %s", new_params, merged_params)
@@ -392,6 +446,7 @@ def chat(request: ChatRequest):
         fallback_type=final_state.get("fallback_type"),
         rules_fired=final_state.get("rules_fired"),
         odm_decision=final_state.get("odm_decision"),
+        extracted_params=final_state.get("extracted_params"),
         latency_ms=final_state.get("latency_ms") or {},
         clarification_needed=final_state.get("clarification_needed", False),
         clarification_question=final_state.get("clarification_question"),

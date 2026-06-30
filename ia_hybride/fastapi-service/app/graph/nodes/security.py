@@ -3,12 +3,14 @@
 Nœud sécurité : détection de patterns dangereux (injection SQL, prompt injection,
 XSS, commandes système).
 
-Améliorations :
-  - `detect_attack(text)` extrait et réutilisable → appelé AUSSI depuis main.py
-    pour screener TOUS les tours (y compris suivi / clarification, qui sautaient
-    le nœud sécurité).
-  - Regex SQL resserrées : on ne bloque plus un simple « ; », « # » ou « -- »
-    isolé (faux positifs sur des phrases normales) ; on exige un contexte SQL.
+`detect_attack(text)` est extrait et réutilisable → appelé AUSSI depuis main.py
+pour screener TOUS les tours (y compris suivi / clarification).
+
+CORRECTIF : « delete table users » n'était pas détecté car le pattern DELETE
+exigeait « DELETE ... FROM », or cette syntaxe (malformée mais malveillante) n'a
+pas de FROM. On ajoute :
+  - tout verbe SQL destructeur suivi de TABLE (DROP/TRUNCATE/DELETE/ALTER TABLE),
+  - les verbes SQL suivis d'un nom (tentative d'injection même mal formée).
 """
 import re
 import time
@@ -21,13 +23,22 @@ logger = logging.getLogger("security")
 
 DANGEROUS_PATTERNS = {
     "sql_injection": [
-        r"(?i)\b(DROP|TRUNCATE)\s+TABLE\b",
+        # Verbe destructeur + TABLE (couvre "DROP TABLE", "DELETE TABLE",
+        # "TRUNCATE TABLE", "ALTER TABLE" — y compris la syntaxe incorrecte
+        # "DELETE TABLE" qui reste une tentative d'injection évidente).
+        r"(?i)\b(DROP|TRUNCATE|DELETE|ALTER|CREATE)\s+TABLE\b",
+        # Verbe SQL classique avec sa clause attendue (FROM/INTO).
         r"(?i)\b(DELETE|INSERT|UPDATE|SELECT)\b\s+.*\b(FROM|INTO)\b",
+        # SELECT ... (avec colonnes ou *) — capte "select * from" et variantes.
+        r"(?i)\bSELECT\b\s+.*\b(FROM)\b",
         r"(?i)\bUNION\b\s+\bSELECT\b",
         r"(?i)information_schema",
         r"(?i)'\s*OR\s*'?1'?\s*=\s*'?1",          # tautologie ' OR '1'='1
         r"(?i)WAITFOR\s+DELAY",
-        r"(?i);\s*(DROP|DELETE|UPDATE|INSERT|SELECT)\b",   # ; suivi d'une commande SQL
+        r"(?i);\s*(DROP|DELETE|UPDATE|INSERT|SELECT|TRUNCATE|ALTER)\b",  # ; + commande SQL
+        # Verbe destructeur suivi d'un identifiant (sans TABLE) :
+        # "drop users", "delete clients" → tentative malformée mais malveillante.
+        r"(?i)\b(DROP|TRUNCATE)\s+\w+",
     ],
     "prompt_injection": [
         r"(?i)(ignore (previous|all)|disregard (the|all|previous)|forget your|tu es maintenant|oublie (tes|les)|do anything now)",

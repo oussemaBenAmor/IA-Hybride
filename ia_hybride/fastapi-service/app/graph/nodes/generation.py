@@ -3,11 +3,17 @@
 Nœud de génération : répond au message du client en s'appuyant UNIQUEMENT sur
 la décision du moteur de règles (ODM) et ses détails chiffrés.
 
-DURCISSEMENT : le LLM avait présenté `montant_demande` (8 500 €) comme étant le
-"montant maximal empruntable". Le prompt mappe maintenant EXPLICITEMENT chaque
-type de question vers la bonne clé des détails, et interdit de présenter le
-montant demandé comme un maximum. Si la clé attendue est absente des détails
-(ex: ancien OdmService non redéployé), le LLM doit le dire honnêtement.
+DURCISSEMENT crédit : le LLM avait présenté `montant_demande` comme "montant
+maximal empruntable". Le bloc crédit mappe EXPLICITEMENT chaque question vers la
+bonne clé des détails et interdit de présenter le montant demandé comme un max.
+
+CORRECTIF "jargon crédit hors crédit" : auparavant la table des clés crédit
+(mensualité, taux d'endettement, capacité d'emprunt) était injectée dans le
+prompt POUR TOUS LES CAS. Résultat : pour une assurance vie, le LLM mentionnait
+"aucune information sur les mensualités ou le taux d'endettement" — notions qui
+n'ont aucun sens ici. Désormais ce bloc n'apparaît QUE pour les crédits. Pour
+les autres cas, ces mots ne figurent même pas dans le prompt → le LLM ne peut
+pas les ressortir.
 """
 import time
 import json
@@ -18,22 +24,11 @@ from app.core.llm import generate_text, LLMError
 
 logger = logging.getLogger("generation")
 
+# Cas pour lesquels les notions de crédit (mensualité, taux, capacité) ont un sens.
+CREDIT_CASES = {"credit_immobilier", "credit_consommation"}
 
-def build_generation_prompt(state: GraphState) -> str:
-    odm = state.get("odm_decision") or {}
-    details = odm.get("details") or {}
-    return f"""Tu es un conseiller bancaire professionnel. Réponds au message du client
-en t'appuyant UNIQUEMENT sur la décision du moteur de règles et ses détails chiffrés.
-
-Message du client : "{state.get("input_corrected") or state["input_raw"]}"
-Cas traité : {state.get("case_selected")}
-Paramètres du dossier : {json.dumps(state.get("extracted_params"), ensure_ascii=False)}
-Décision : {odm.get("decision")}
-Règles déclenchées : {state.get("rules_fired")}
-Détails et alternatives calculés par le moteur de règles :
-{json.dumps(details, ensure_ascii=False, indent=2)}
-
-CORRESPONDANCE QUESTION → CLÉ DES DÉTAILS (à respecter STRICTEMENT) :
+# Bloc injecté UNIQUEMENT pour les crédits.
+_CREDIT_BLOCK = """CORRESPONDANCE QUESTION → CLÉ DES DÉTAILS (à respecter STRICTEMENT) :
 - "montant maximal que je peux emprunter" → "montant_max_empruntable_sur_duree_demandee"
   (ou "montant_max_empruntable_sur_300_mois" si aucune durée n'est fixée).
   ⚠️ Ce n'est JAMAIS "montant_demande" : le montant demandé par le client n'est pas un maximum.
@@ -44,18 +39,57 @@ CORRESPONDANCE QUESTION → CLÉ DES DÉTAILS (à respecter STRICTEMENT) :
 Si la clé correspondant à la question N'EXISTE PAS dans les détails ci-dessus,
 dis honnêtement que cette information n'est pas disponible et qu'un conseiller
 pourra la calculer — n'invente RIEN et ne substitue PAS une autre valeur.
+"""
 
+
+def build_generation_prompt(state: GraphState) -> str:
+    odm = state.get("odm_decision") or {}
+    details = odm.get("details") or {}
+    case = state.get("case_selected")
+    is_credit = case in CREDIT_CASES
+
+    # Le bloc crédit (et son vocabulaire) n'apparaît QUE pour les crédits.
+    credit_block = _CREDIT_BLOCK if is_credit else ""
+
+    # Consigne de cadrage différente selon crédit / non-crédit.
+    if is_credit:
+        scope_rule = (
+            "4. Tu peux parler de mensualité, de taux d'endettement et de capacité "
+            "d'emprunt, mais UNIQUEMENT à partir des clés présentes dans les détails "
+            "ci-dessus (jamais de chiffre inventé)."
+        )
+    else:
+        scope_rule = (
+            "4. INTERDICTION ABSOLUE de mentionner les notions de crédit : ne parle "
+            "JAMAIS de mensualité, de taux d'endettement, de capacité ou de montant "
+            "empruntable, ni de durée de remboursement. Ces notions n'existent pas "
+            "pour ce service. Ne dis pas non plus qu'elles « ne sont pas disponibles » "
+            "— n'en parle pas du tout. Réponds seulement avec la décision et les "
+            "règles déclenchées."
+        )
+
+    return f"""Tu es un conseiller bancaire professionnel. Réponds au message du client
+en t'appuyant UNIQUEMENT sur la décision du moteur de règles et ses détails.
+
+Message du client : "{state.get("input_corrected") or state["input_raw"]}"
+Cas traité : {case}
+Paramètres du dossier : {json.dumps(state.get("extracted_params"), ensure_ascii=False)}
+Décision : {odm.get("decision")}
+Règles déclenchées : {state.get("rules_fired")}
+Détails calculés par le moteur de règles :
+{json.dumps(details, ensure_ascii=False, indent=2)}
+{credit_block}
 CONSIGNES :
-1. Si le message du client est une QUESTION, réponds D'ABORD et DIRECTEMENT à sa
-   question en utilisant la clé correspondante (voir la table ci-dessus).
+1. Si le message du client est une QUESTION, réponds D'ABORD et DIRECTEMENT à sa question.
 2. Si la décision est un refus, explique brièvement pourquoi (règles déclenchées) et
-   propose les alternatives chiffrées disponibles dans les détails.
+   propose les alternatives chiffrées disponibles dans les détails, s'il y en a.
 3. Si les détails contiennent "reorientation_suggeree", informe le client que sa
    demande correspond mieux à cet autre produit et explique pourquoi
    ("reorientation_raison").
-4. N'INVENTE AUCUN CHIFFRE : chaque nombre de ta réponse doit provenir des détails
+{scope_rule}
+5. N'INVENTE AUCUN CHIFFRE : chaque nombre de ta réponse doit provenir des détails
    ou des paramètres ci-dessus.
-5. Réponds en français, professionnel et bienveillant, en 2 à 4 phrases.
+6. Réponds en français, professionnel et bienveillant, en 2 à 4 phrases.
 """
 
 
