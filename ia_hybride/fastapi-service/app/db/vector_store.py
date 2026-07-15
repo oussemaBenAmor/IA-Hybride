@@ -1,36 +1,39 @@
-# === Destination : app/db/vector_store.py (remplace l'existant) ===
 """
-Vector store pgvector pour le router sémantique.
-
-Changement clé : les descriptions de cas sont désormais en LANGAGE NATUREL
-(phrases représentatives) au lieu de sacs de mots-clés. Le bi-encoder sépare
-bien mieux, et le LLM du router les comprend directement.
-
-⚠️ Après modification des descriptions, il faut re-seeder (fait automatiquement
-au démarrage via le lifespan de main.py, grâce au ON CONFLICT ... DO UPDATE).
+Gestion du vector store pgvector pour la recherche sémantique des cas métier.
+Permet de créer les embeddings, rechercher les cas similaires et alimenter la base.
 """
 import logging
 
 import httpx
-import psycopg2.extras
+import psycopg2.extras   # Fournit des curseurs PostgreSQL avancés
 
-from app.db.postgres import get_connection
+from app.db.postgres import get_connection   # Ouvre une connexion PostgreSQL
 from app.config import settings
 
 logger = logging.getLogger("vector_store")
 
 
+
+# Génère le vecteur (embedding) représentant le texte.
 def get_embedding(text: str) -> list[float]:
-    """Génère un embedding via Ollama (passe par le tunnel SSH → Ollama distant)."""
+
     try:
+
+        # Envoie le texte au modèle d'embedding
         response = httpx.post(
             f"{settings.ollama_base_url}/api/embed",
             json={"model": settings.embedding_model, "input": text},
             timeout=30.0,
         )
+
+        # Déclenche une erreur si la requête HTTP échoue
         response.raise_for_status()
+
+        # Convertit la réponse JSON en dictionnaire Python
         data = response.json()
         if "embeddings" in data:
+
+            # Retourne le premier embedding généré
             return data["embeddings"][0]
     except Exception:
         pass
@@ -45,14 +48,22 @@ def get_embedding(text: str) -> list[float]:
     return response.json()["embedding"]
 
 
+
+# Convertit une liste Python au format attendu par pgvector
 def format_vector(embedding: list[float]) -> str:
     return "[" + ",".join(str(x) for x in embedding) + "]"
 
 
+
+# Ajoute ou met à jour un cas métier dans la base
 def upsert_case(case_name: str, description: str):
+
+    # Génère l'embedding de la description
     embedding = get_embedding(description)
     conn = get_connection()
     try:
+
+        # Ouvre un curseur pour exécuter des requêtes SQL
         with conn.cursor() as cur:
             cur.execute(
                 """
@@ -69,10 +80,20 @@ def upsert_case(case_name: str, description: str):
         conn.close()
 
 
+
+# Recherche les cas métier les plus proches de la requête
 def search_similar_cases(query: str, top_k: int = 5) -> list[dict]:
+
+    # Génère l'embedding de la requête utilisateur
     embedding = get_embedding(query)
+
+    # Connexion à PostgreSQL
     conn = get_connection()
     try:
+
+        # Recherche vectorielle des cas les plus similaires sous forme de dictionnaires.
+        # et  Convertit la distance cosinus en score de similarité (0 → 1)
+        # et Retourne uniquement les top_k meilleurs résultats
         with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
             cur.execute(
                 """
@@ -89,7 +110,7 @@ def search_similar_cases(query: str, top_k: int = 5) -> list[dict]:
         conn.close()
 
 
-# ── Descriptions en langage naturel ───────────────────────────────────────────
+# Descriptions naturelles utilisées pour créer les embeddings des cas métier
 CASE_DESCRIPTIONS = {
     "credit_immobilier": (
         "Financer l'achat d'un bien immobilier : maison, appartement, résidence "
@@ -131,16 +152,25 @@ CASE_DESCRIPTIONS = {
 }
 
 
+# Met à jour tous les cas métier dans le vector store
 def seed_cases():
+
+    # Parcourt chaque cas métier défini
     for case_name, description in CASE_DESCRIPTIONS.items():
+
+        # Insère ou met à jour le cas dans PostgreSQL
         upsert_case(case_name, description)
         logger.info("cas métier mis à jour : %s", case_name)
 
 
+
+# Permet d'exécuter ce fichier directement
 if __name__ == "__main__":
     import sys, os
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
     logging.basicConfig(level=logging.INFO)
     print("🌱 Re-seeding du vector store (descriptions naturelles)...")
+
+    # Lance le remplissage du vector store
     seed_cases()
     print("✅ Terminé !")

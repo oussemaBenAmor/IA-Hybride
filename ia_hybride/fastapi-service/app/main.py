@@ -4,12 +4,14 @@ import json
 import uuid
 import logging
 import traceback
+
+# Permet de définir du code exécuté au démarrage et à l'arrêt de FastAPI
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from rapidfuzz import fuzz
+from pydantic import BaseModel  # pour définir les formats d'entrée/sortie
+from rapidfuzz import fuzz       # pour tolérer les fautes
 
 from app.config import settings
 from app.core.logging import setup_logging
@@ -18,7 +20,7 @@ from app.db.postgres import init_db
 from app.db.vector_store import seed_cases
 from app.graph.graph_builder import get_graph
 from app.graph.nodes.extraction import extract_params_with_llm
-from app.graph.nodes.security import detect_attack
+from app.graph.nodes.security import detect_attack  # réutilisé ici pour screener TOUS les tours
 from app.graph.nodes.router import VALID_CASES
 
 logger = logging.getLogger("api")
@@ -31,7 +33,7 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     session_id:               str
-    response:                 str
+    response:                 str    # la réponse à afficher
     case_selected:            str | None
     confidence:               float | None
     fallback_type:            str | None
@@ -51,7 +53,7 @@ graph = None
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global graph
-    setup_logging()
+    setup_logging()      # configure les logs
 
     if settings.langsmith_tracing and settings.langsmith_api_key:
         os.environ["LANGCHAIN_TRACING_V2"] = "true"
@@ -70,26 +72,26 @@ async def lifespan(app: FastAPI):
     if settings.hf_token:
         os.environ["HF_TOKEN"] = settings.hf_token
 
-    init_db()
+    init_db()   # crée les tables PostgreSQL
     try:
-        seed_cases()
+        seed_cases()   # peuple le vector store (cas métier)
     except Exception as e:
         logger.warning("seed_cases ignoré (Ollama injoignable ?) : %s", e)
 
-    graph = get_graph()
+    graph = get_graph()   # CONSTRUIT le graphe une seule fois
     logger.info("FastAPI démarré — LangGraph prêt (Ollama=%s)", settings.ollama_base_url)
     yield
 
 
 app = FastAPI(title="Orchestration IA + BRMS", version="3.2.0", lifespan=lifespan)
 app.add_middleware(
-    CORSMiddleware,
+    CORSMiddleware,    # autorise le frontend (Streamlit) à appeler l'API
     allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-
+# Indices lexicaux utilisés pour choisir le cas métier après une clarification.
 LEXICAL_HINTS = {
     "credit_immobilier":   ("immobilier", "immo", "maison", "appartement", "logement", "résidence", "residence"),
     "credit_consommation": ("consommation", "conso", "personnel", "voiture", "auto", "travaux", "loisir"),
@@ -102,7 +104,6 @@ LEXICAL_HINTS = {
 # ══════════════════════════════════════════════════════════════════════════════
 # GREETINGS — petite conversation traitée directement, sans passer par le graphe.
 # Matching lexical + fuzzy (rapidfuzz) pour tolérer les fautes de frappe
-# ("bonjouur", "helo"...). Volontairement simple et rapide (~0 ms, pas de LLM).
 # ══════════════════════════════════════════════════════════════════════════════
 GREETING_WORDS = (
     "bonjour", "salut", "bonsoir", "hello", "hi", "hey", "coucou",
@@ -148,19 +149,18 @@ CAPABILITIES_REPLY = (
     "Que souhaitez-vous faire ?"
 )
 
-
+#Détecte une question sur les services offerts (méta, pas un cas métier).
 def _is_capability_question(text: str) -> bool:
-    """Détecte une question sur les services offerts (méta, pas un cas métier)."""
     t = text.lower().strip(" !.?,")
     if len(t) > 80:
         return False
     return any(trigger in t for trigger in CAPABILITY_TRIGGERS)
 
-_FUZZY_THRESHOLD = 75   # tolérance fautes de frappe sur le premier mot
+_FUZZY_THRESHOLD = 75    # seuil de ressemblance pour tolérer les fautes de frappe
 
-
+# Renvoie la réponse de small talk appropriée, ou None si ce n'en est pas.
 def _match_smalltalk(text: str) -> str | None:
-    """Renvoie la réponse de small talk appropriée, ou None si ce n'en est pas."""
+
     t = text.lower().strip(" !.?,")
     if not t or len(t) > 40:          # un vrai message métier est plus long
         return None
@@ -168,6 +168,8 @@ def _match_smalltalk(text: str) -> str | None:
 
     def hits(words: tuple) -> bool:
         for w in words:
+
+            # correspondance exacte ou début de phrase
             if t == w or t.startswith(w + " ") or t.startswith(w + "!"):
                 return True
             # tolérance typo sur le premier mot ("bonjouur" → "bonjour")
@@ -184,10 +186,11 @@ def _match_smalltalk(text: str) -> str | None:
     return None
 
 
-# ── État vierge : remet TOUS les champs de sortie à None/défaut ───────────────
-# Indispensable avec le checkpointer : graph.invoke FUSIONNE l'input avec le
-# dernier checkpoint du thread. Tout champ non réinitialisé conserve la valeur
-# du tour précédent. On force donc ici un reset complet pour une nouvelle demande.
+
+# Crée un état propre pour une nouvelle demande utilisateur.
+# Avec le checkpointer LangGraph, l'ancien état de la conversation est restauré
+# automatiquement. On réinitialise donc tous les champs pour éviter de conserver
+# des informations d'une ancienne requête (ancien cas métier, paramètres, décision ODM...).
 def _fresh_state(session_id: str, user_reply: str) -> dict:
     return {
         "session_id":               session_id,
@@ -234,6 +237,11 @@ _RESET_OUTPUTS = {
 }
 
 
+
+# Vérifie si la réponse utilisateur correspond aux paramètres demandés
+# ou si elle démarre une nouvelle demande indépendante.
+# Utilise un LLM pour éviter de mélanger deux conversations.
+# Le bot attend une information manquante
 def _is_new_request(user_reply: str, question_asked: str, missing_fields: list) -> bool:
     prompt = f"""Le chatbot a demandé : "{question_asked}"
 Champs attendus : {missing_fields}
@@ -246,12 +254,15 @@ B) Une nouvelle demande différente (il change de sujet)
 Réponds UNIQUEMENT par A ou B."""
     try:
         ans = generate_text(prompt, task="classifier", temperature=0.0, timeout=30.0).upper()
-        return ans.startswith("B")
+        return ans.startswith("B") # l'utilisateur a changé de sujet
     except LLMError as e:
         logger.warning("intent_check KO (%s) → on suppose réponse directe", e)
         return False
 
-
+# Vérifie si un nouveau message utilisateur correspond à la demande bancaire actuelle
+# ou s'il démarre une nouvelle conversation sur un autre sujet.
+# Le LLM compare le nouveau message avec le cas métier et les paramètres connus.
+# Est-ce une continuation du même dossier?
 def _is_followup(user_reply: str, case_selected: str, known_params: dict) -> bool:
     prompt = f"""Demande bancaire en cours : cas = "{case_selected}", paramètres connus = {json.dumps(known_params, ensure_ascii=False)}.
 Nouveau message de l'utilisateur : "{user_reply}"

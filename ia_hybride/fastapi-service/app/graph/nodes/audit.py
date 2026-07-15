@@ -1,12 +1,5 @@
-# === Destination : app/graph/nodes/audit.py (remplace l'existant) ===
 """
-Nœud d'audit : persiste une trace décisionnelle complète dans audit_trail.
-
-CORRECTION MAJEURE : l'ancienne version insérait des colonnes qui n'existaient
-PAS dans le schéma (input_corrected, case_selected, confidence, rules_fired,
-response_text, latency_ms). L'INSERT échouait, l'exception était avalée par un
-except silencieux → AUCUNE ligne d'audit n'était jamais écrite. Ici les colonnes
-correspondent exactement au schéma de postgres.py, et toute erreur est loggée.
+Nœud d'audit : enregistre une trace complète du traitement dans la base.
 """
 import json
 import time
@@ -17,7 +10,7 @@ from app.db.postgres import get_connection
 
 logger = logging.getLogger("audit")
 
-# Mapping nom de nœud (latency_ms) → colonne SQL
+# Association entre les noms des nœuds et les colonnes SQL des latences
 _LATENCY_COLS = {
     "security":   "latency_security",
     "correction": "latency_correction",
@@ -29,6 +22,7 @@ _LATENCY_COLS = {
 }
 
 
+# Calcule l'écart entre les deux meilleurs scores du router
 def _top2_gap(top2) -> float | None:
     if top2 and len(top2) >= 2:
         try:
@@ -41,15 +35,19 @@ def _top2_gap(top2) -> float | None:
 def audit_node(state: GraphState) -> GraphState:
     start = time.time()
 
+    # Récupère les latences des autres nœuds
     latencies = dict(state.get("latency_ms", {}))
     latency_total = sum(latencies.values())
 
+    # Récupère la réponse ODM
     odm = state.get("odm_decision") or {}
     raw = state.get("input_raw")
     corrected = state.get("input_corrected")
 
-    # latences par nœud (colonnes séparées)
+    # Initialise toutes les colonnes de latence à None
     latency_values = {col: None for col in _LATENCY_COLS.values()}
+
+    # Associe chaque latence à sa colonne SQL
     for node, ms in latencies.items():
         col = _LATENCY_COLS.get(node)
         if col:
@@ -57,12 +55,16 @@ def audit_node(state: GraphState) -> GraphState:
 
     conn = get_connection()
     try:
+
+        # Crée un curseur pour exécuter les requêtes SQ
         with conn.cursor() as cur:
             cur.execute(
                 "INSERT INTO conversation_sessions (session_id) "
                 "VALUES (%s::uuid) ON CONFLICT DO NOTHING",
                 (state["session_id"],),
             )
+
+            # Crée la session si elle n'existe pas déjà
             cur.execute(
                 f"""
                 INSERT INTO audit_trail (
@@ -113,10 +115,16 @@ def audit_node(state: GraphState) -> GraphState:
             latency_total,
         )
     except Exception:
+
+        # Annule l'insertion en cas d'erreur
         conn.rollback()
+
+        # Enregistre l'erreur complète dans les logs
         logger.exception("audit insert FAILED")   # on ne masque plus l'erreur
     finally:
         conn.close()
 
     elapsed = (time.time() - start) * 1000
+
+    # Retourne le state en ajoutant la latence de l'audit
     return {**state, "latency_ms": {**latencies, "audit": elapsed}}

@@ -1,19 +1,6 @@
-# === Destination : app/graph/nodes/generation.py (remplace l'existant) ===
 """
-Nœud de génération : répond au message du client en s'appuyant UNIQUEMENT sur
-la décision du moteur de règles (ODM) et ses détails chiffrés.
-
-DURCISSEMENT crédit : le LLM avait présenté `montant_demande` comme "montant
-maximal empruntable". Le bloc crédit mappe EXPLICITEMENT chaque question vers la
-bonne clé des détails et interdit de présenter le montant demandé comme un max.
-
-CORRECTIF "jargon crédit hors crédit" : auparavant la table des clés crédit
-(mensualité, taux d'endettement, capacité d'emprunt) était injectée dans le
-prompt POUR TOUS LES CAS. Résultat : pour une assurance vie, le LLM mentionnait
-"aucune information sur les mensualités ou le taux d'endettement" — notions qui
-n'ont aucun sens ici. Désormais ce bloc n'apparaît QUE pour les crédits. Pour
-les autres cas, ces mots ne figurent même pas dans le prompt → le LLM ne peut
-pas les ressortir.
+Génère la réponse finale du client à partir de la décision du moteur de règles
+(ODM), sans inventer d'informations.
 """
 import time
 import json
@@ -43,9 +30,15 @@ pourra la calculer — n'invente RIEN et ne substitue PAS une autre valeur.
 
 
 def build_generation_prompt(state: GraphState) -> str:
+
+    # Récupère la décision renvoyée par ODM
     odm = state.get("odm_decision") or {}
+
+    # Récupère les valeurs calculées par ODM
     details = odm.get("details") or {}
     case = state.get("case_selected")
+
+    # Indique si le cas traité est un crédit
     is_credit = case in CREDIT_CASES
 
     # Le bloc crédit (et son vocabulaire) n'apparaît QUE pour les crédits.
@@ -93,6 +86,7 @@ CONSIGNES :
 """
 
 
+# Génère la réponse finale du client
 def generation_node(state: GraphState) -> GraphState:
     start = time.time()
     try:

@@ -8,8 +8,6 @@ une carte, rachat vs souscription pour l'assurance vie, etc. Les sous-opération
 sont des chaînes libres (avec valeurs attendues dans la description) pour rester
 tolérantes à l'extraction LLM ; l'ODM gère les valeurs inconnues.
 
-Note : l'ancienne classe `workflow` a été retirée — elle dupliquait GraphState
-(app/graph/state.py), qui est la seule source de vérité de l'état du graphe.
 """
 from typing import Optional
 from pydantic import BaseModel, Field

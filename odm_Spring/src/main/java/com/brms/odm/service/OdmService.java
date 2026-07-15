@@ -59,7 +59,7 @@ public class OdmService {
     // ── Virement ──────────────────────────────────────────────────────
     private OdmResponse callVirement(Map<String, Object> p) {
         VirementRequest r = new VirementRequest();
-        r.setTypeVirement(toStr(p.get("type_virement")));
+        r.setTypeVirement(toStr(p.get("type_virement")) != null ? toStr(p.get("type_virement")) : "standard");
         r.setMontant(toDouble(p.get("montant")));
         r.setIban(toStr(p.get("iban")));
         return call(props.getVirementPath(), "requestVirement", r, "responseVirement");

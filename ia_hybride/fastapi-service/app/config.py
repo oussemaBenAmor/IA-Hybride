@@ -1,5 +1,5 @@
-# === Destination : app/config.py (remplace l'existant) ===
-from pydantic_settings import BaseSettings
+
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -10,12 +10,10 @@ class Settings(BaseSettings):
     postgres_password: str
     postgres_db: str
 
-    # Pool de connexions (production : évite d'ouvrir une connexion par appel)
+    # Pool de connexions (pour éviter d'ouvrir une connexion par appel)
     db_pool_min: int = 1
     db_pool_max: int = 10
 
-    # ── Hugging Face / modèles ────────────────────────────────────────────
-    hf_token: str | None = None
 
     # ── Ollama ────────────────────────────────────────────────────────────
     ollama_base_url: str
@@ -24,8 +22,6 @@ class Settings(BaseSettings):
     embedding_dimensions: int = 768
 
     # Modèles dédiés par tâche (optionnels). Si None → fallback sur llm_model.
-    # Idée : un petit modèle rapide pour classer/router, un plus gros pour la
-    # reformulation client. Ex (.env) : CLASSIFIER_MODEL=qwen3:4b
     classifier_model: str | None = None   # routing / intent-check
     extraction_model: str | None = None   # extraction de paramètres
     generation_model: str | None = None   # reformulation finale
@@ -39,15 +35,15 @@ class Settings(BaseSettings):
     spring_boot_url: str = "http://localhost:8081"
     odm_request_timeout_sec: float = 8.0    # timeout d'une requête ODM
     odm_retry_window_sec: float = 30.0      # fenêtre totale de retry
-    odm_wait_min_sec: float = 1.0
-    odm_wait_max_sec: float = 10.0
+    odm_wait_min_sec: float = 1.0    #on attend au minimum 1 seconde avant de réessayer.
+    odm_wait_max_sec: float = 10.0   #on n'attend pas plus de 10 secondes entre deux tentatives surtout lorsequ'on utilise le backoff exponentiel.
 
 
 
     langsmith_tracing: bool = False
     langsmith_api_key: str | None = None
     langsmith_project: str = "ia-brms-orchestrator"
-    langsmith_endpoint: str = "https://eu.api.smith.langchain.com"   # <-- nouveau
+    langsmith_endpoint: str = "https://eu.api.smith.langchain.com"
 
 
 
@@ -63,8 +59,7 @@ class Settings(BaseSettings):
             f"@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
         )
 
-    class Config:
-        env_file = ".env"
+    model_config = SettingsConfigDict(env_file=".env")
 
 
 settings = Settings()

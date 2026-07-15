@@ -1,23 +1,15 @@
-# === Destination : app/graph/nodes/correction.py (remplace l'existant) ===
 """
-Nœud de correction orthographique à DEUX étages, rapide et 100% déterministe.
+Nœud de correction orthographique hybride :
+- protège les vrais mots français
+- corrige les fautes avec SymSpell
+- vérifie le vocabulaire bancaire avec RapidFuzz
 
-AUCUN FICHIER EXTERNE À FOURNIR : le dictionnaire français provient de la
-bibliothèque `wordfreq` (données embarquées). Il suffit de `pip install wordfreq`.
+Flux de correction :
+1. wordfreq vérifie si le mot est un vrai mot français → protection contre les fausses corrections.
+2. SymSpell cherche une correction rapide basée sur la distance d'édition.
+3. RapidFuzz vérifie les correspondances métier (banque) avec un score de confiance élevé.
 
-Philosophie : corriger les fautes de frappe qui gênent le routing bancaire, SANS
-sur-corriger ni les mots français valides ("veux" ne doit PAS devenir "taux"),
-ni les mots hors-domaine ("users" ne doit pas devenir "sers").
-
-  Étape 0 — Si le mot est un VRAI mot français (fréquence wordfreq suffisante),
-            on n'y touche pas. C'est ce qui protège "veux", "maison", "voudrais".
-  Étage 1 — SymSpell : correction lexicale rapide (Damerau-Levenshtein optimisé),
-            dictionnaire construit EN MÉMOIRE depuis wordfreq + vocabulaire métier.
-  Étage 2 — RapidFuzz métier : rattrape les fautes propres au domaine bancaire
-            ("credot" → "crédit") avec un seuil de confiance élevé.
-
-Garde-fou anti sur-correction : un mot inconnu qui ne ressemble fortement à rien
-(ni correction SymSpell nette, ni terme métier >= 80%) est laissé TEL QUEL.
+Les mots incertains sont conservés pour éviter la sur-correction.
 """
 import re
 import time
@@ -30,6 +22,7 @@ from symspellpy import SymSpell, Verbosity
 
 from app.graph.state import GraphState
 
+# Logger du nœud de correction
 logger = logging.getLogger("correction")
 
 # ── Dictionnaire métier ───────────────────────────────────────────────────────
@@ -45,43 +38,41 @@ BUSINESS_DICTIONARY = [
     "souscription", "rachat", "versement", "déblocage", "renouvellement",
 ]
 
+# Version sans accents pour reconnaître "credit" comme "crédit"
+
 _BUSINESS_DICT_NORMALIZED = [
     ''.join(c for c in unicodedata.normalize('NFD', w) if unicodedata.category(c) != 'Mn')
     for w in BUSINESS_DICTIONARY
 ]
 
-# ══════════════════════════════════════════════════════════════════════════════
-# SEUILS — chacun justifié
-# ══════════════════════════════════════════════════════════════════════════════
-MIN_LEN           = 4    # mots < 4 lettres laissés tels quels (trop ambigus)
 
-SYMSPELL_MAX_EDIT = 2    # 2 éditions = standard (~95% des fautes réelles sont à
-# distance 1 ou 2). Au-delà → faux positifs.
+MIN_LEN           = 4    # Ignore les mots trop courts (trop ambigus)
 
-BIZ_ACCEPT_CUTOFF = 80   # RapidFuzz : correction métier acceptée seulement si
-# ressemblance >= 80/100 (à 65, "users" matchait par hasard).
+SYMSPELL_MAX_EDIT = 2    # Nombre maximum de modifications autorisées par SymSpell
 
-BIZ_FLOOR         = 60   # en dessous, on ne retient même pas le candidat métier.
+BIZ_ACCEPT_CUTOFF = 80  # Score minimum RapidFuzz pour accepter une correction bancaire
 
-FR_MIN_ZIPF       = 2.5  # Seuil de "vrai mot français" via wordfreq.zipf_frequency.
-# L'échelle Zipf va ~1 (très rare) à ~7 (très courant).
-# 2.5 = mot raisonnablement courant. "veux"=5.6, "maison"=5.5
-# → protégés. "users"=2.67 est juste au-dessus mais ne
-# ressemble à aucun mot métier → laissé tel quel de toute façon.
-# "credot"/"imobilier"=0 → inconnus → corrigés.
+
+BIZ_FLOOR         = 60   # Score minimum pour considérer un candidat métier
+
+FR_MIN_ZIPF       = 2.5  # Fréquence minimale pour considérer un mot comme français valide
+
 
 FR_VOCAB_SIZE     = 40000  # nombre de mots FR les plus fréquents injectés dans SymSpell
-BIZ_FREQ          = 5000   # fréquence MODÉRÉE du métier (ne pas écraser le français)
-BIZ_FREQ_NOACCENT = 4000
+BIZ_FREQ          = 5000   # Poids des mots métier dans SymSpell
+BIZ_FREQ_NOACCENT = 4000   # Poids des mots métier sans accents
 
+# Reconnaît les mots contenant lettres, accents, apostrophes et tirets
 _WORD_RE = re.compile(r"[a-zàâäéèêëïîôöùûüÿçœæ'-]+")
 
 
 # ── Initialisation SymSpell depuis wordfreq (en mémoire) ──────────────────────
 def _build_symspell() -> SymSpell:
+    #utilise les 7 premiers caractères du mot pour accélérer la recherche.
     sym = SymSpell(max_dictionary_edit_distance=SYMSPELL_MAX_EDIT, prefix_length=7)
 
-    # Dictionnaire français : les N mots les plus fréquents, fréquence = rang inversé.
+    # Chargement des mots français fréquents depuis wordfreq
+
     top = wordfreq.top_n_list("fr", FR_VOCAB_SIZE)
     added = 0
     for i, w in enumerate(top):
@@ -90,7 +81,7 @@ def _build_symspell() -> SymSpell:
             added += 1
     logger.info("dictionnaire FR construit depuis wordfreq (%d mots, aucun fichier)", added)
 
-    # Vocabulaire métier ajouté par-dessus, à fréquence MODÉRÉE
+    # Vocabulaire métier ajouté par-dessus, à fréquence modérée
     for word in BUSINESS_DICTIONARY:
         sym.create_dictionary_entry(word.lower(), BIZ_FREQ)
     for word in _BUSINESS_DICT_NORMALIZED:
@@ -98,22 +89,22 @@ def _build_symspell() -> SymSpell:
 
     return sym
 
-
+# Dictionnaire SymSpell chargé une seule fois au démarrage
 _sym = _build_symspell()
 _BIZ_SET = {w.lower() for w in BUSINESS_DICTIONARY} | {w.lower() for w in _BUSINESS_DICT_NORMALIZED}
 
-
+# Uniformise les caractères Unicode
 def normalize(text: str) -> str:
     return unicodedata.normalize("NFC", text)
 
-
+# Supprime les accents
 def _strip_accents(s: str) -> str:
     return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
 
 
+# Vérifie si le mot existe en français
 def _is_real_french_word(clean: str, clean_norm: str) -> bool:
-    """Vrai mot français ? On teste la forme exacte ET la forme sans accents
-    (l'utilisateur tape souvent sans accents : "credit" → "crédit" existe)."""
+
     if wordfreq.zipf_frequency(clean, "fr") >= FR_MIN_ZIPF:
         return True
     if clean_norm != clean and wordfreq.zipf_frequency(clean_norm, "fr") >= FR_MIN_ZIPF:
@@ -121,6 +112,7 @@ def _is_real_french_word(clean: str, clean_norm: str) -> bool:
     return False
 
 
+# Cherche le mot métier le plus ressemblant
 def _biz_best(clean_norm: str):
     match = process.extractOne(clean_norm, _BUSINESS_DICT_NORMALIZED,
                                scorer=fuzz.WRatio, score_cutoff=BIZ_FLOOR)
@@ -130,22 +122,24 @@ def _biz_best(clean_norm: str):
     return BUSINESS_DICTIONARY[idx], score
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-# Correction d'UN mot
-# ══════════════════════════════════════════════════════════════════════════════
+# Correction d'un seul mot
 
 def correct_word(word: str) -> tuple[str, bool]:
+    # Nettoyage du mot
     clean = word.lower().strip(".,;:!?\"'()")
+
+    # Ignore les mots courts
     if len(clean) < MIN_LEN:
         return word, False
 
-    # Déjà un terme métier connu → ne pas toucher
+    # Les mots métier connus restent inchangés
     if clean in _BIZ_SET:
         return word, False
 
+    # Création de la version sans accents
     clean_norm = _strip_accents(clean)
 
-    # ── Étape 0 : vrai mot français → on n'y touche PAS (protège "veux") ──────
+    # ── Étape 0 : vrai mot français → on n'y touche PAS ──────
     if _is_real_french_word(clean, clean_norm):
         return word, False
 
@@ -154,18 +148,23 @@ def correct_word(word: str) -> tuple[str, bool]:
                               max_edit_distance=SYMSPELL_MAX_EDIT)
     sym_candidate = None
     if suggestions:
+        # Meilleure proposition SymSpell
         best_term = suggestions[0].term
+        # Si c'est un mot bancaire, garder la forme avec accent
         if best_term != clean_norm:
             if best_term in _BUSINESS_DICT_NORMALIZED:
                 sym_candidate = BUSINESS_DICTIONARY[_BUSINESS_DICT_NORMALIZED.index(best_term)]
             else:
                 sym_candidate = best_term
 
-    # ── Étage 2 : RapidFuzz métier (haute confiance prioritaire) ──────────────
+    # Vérification métier avec RapidFuzz
     biz_word, biz_score = _biz_best(clean_norm)
+
+    # Correction uniquement si confiance élevée
     if biz_word and biz_score >= BIZ_ACCEPT_CUTOFF and _strip_accents(biz_word.lower()) != clean_norm:
         return biz_word, True
 
+    # Sinon utiliser la correction SymSpell
     if sym_candidate and sym_candidate.lower() != clean:
         return sym_candidate, True
 
@@ -173,24 +172,28 @@ def correct_word(word: str) -> tuple[str, bool]:
     return word, False
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-# Nœud
-# ══════════════════════════════════════════════════════════════════════════════
+# ── Nœud LangGraph ───────────────────────────────────────────────────────────
+
 
 def correction_node(state: GraphState) -> GraphState:
     start = time.time()
+
+    # Récupération et normalisation du texte utilisateur
     text  = normalize(state["input_raw"])
+    # Séparation en mots
     words = text.split()
 
     corrected_words    = []
     correction_applied = False
 
+    # Correction mot par mot
     for word in words:
         corrected, changed = correct_word(word)
         corrected_words.append(corrected)
         if changed:
             correction_applied = True
 
+    # Reconstruction de la phrase
     corrected_text = " ".join(corrected_words)
     elapsed = (time.time() - start) * 1000
 

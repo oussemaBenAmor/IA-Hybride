@@ -1,15 +1,7 @@
-# === Destination : app/db/postgres.py (remplace l'existant) ===
+
 """
 Couche PostgreSQL avec POOL de connexions.
 
-Avant : une nouvelle connexion psycopg2 était ouverte à CHAQUE appel (audit,
-vector store, endpoints) puis fermée — coûteux et lent, surtout quand le reste
-ralentit. Maintenant un pool réutilise les connexions.
-
-Rétro-compatible : `get_connection()` renvoie un proxy dont `.close()` REND la
-connexion au pool au lieu de la fermer. Tous les appels existants
-(`with conn.cursor()`, `conn.commit()`, `conn.rollback()`, `conn.close()`)
-fonctionnent sans changement.
 """
 import logging
 
@@ -23,7 +15,7 @@ logger = logging.getLogger("postgres")
 
 _pool: psycopg2.pool.ThreadedConnectionPool | None = None
 
-
+# Créer un pool de connexions
 def _get_pool() -> psycopg2.pool.ThreadedConnectionPool:
     global _pool
     if _pool is None:
@@ -44,11 +36,11 @@ class _PooledConnection:
     """Proxy autour d'une connexion poolée : .close() = retour au pool."""
 
     def __init__(self, conn, pool):
-        self._conn = conn
+        self._conn = conn  #La vraie connexion PostgreSQL.
         self._pool = pool
 
     def __getattr__(self, name):
-        # délègue cursor/commit/rollback/etc. à la vraie connexion
+        # délègue cursor/commit/rollback/etc. à la vraie connexion paceque _PooledConnection ne possède pas de méthode cursor()...
         return getattr(self._conn, name)
 
     def close(self):
@@ -61,11 +53,11 @@ class _PooledConnection:
 
 def get_connection() -> _PooledConnection:
     pool = _get_pool()
-    return _PooledConnection(pool.getconn(), pool)
+    return _PooledConnection(pool.getconn(), pool)    #Le pool donne une connexion libre.
 
 
 def init_db():
-    """Crée toutes les tables si elles n'existent pas."""
+    #Créer toutes les tables si elles n'existent pas
     conn = get_connection()
     try:
         with conn.cursor() as cur:
@@ -151,20 +143,21 @@ def init_db():
 
 def purge_old_checkpoints():
     """
-    OPTIONNEL — ne garde que le dernier checkpoint par thread LangGraph.
+    ne garde que le dernier checkpoint par session.
     Évite l'accumulation qui ralentit les longues conversations.
-    À tester avant usage : on conserve la reprise (seul le dernier checkpoint
-    est nécessaire), on perd l'historique de « time-travel » (non utilisé ici).
     """
     conn = get_connection()
     try:
         with conn.cursor() as cur:
+            # supprime les writes des anciens checkpoints
             cur.execute("""
                         DELETE FROM checkpoint_writes w
                         WHERE (w.thread_id, w.checkpoint_id) NOT IN (
                             SELECT thread_id, MAX(checkpoint_id) FROM checkpoints GROUP BY thread_id
                         );
                         """)
+
+            # garde seulement le dernier checkpoint par thread
             cur.execute("""
                         DELETE FROM checkpoints c
                         WHERE c.checkpoint_id <> (
@@ -174,7 +167,9 @@ def purge_old_checkpoints():
         conn.commit()
         logger.info("checkpoints anciens purgés")
     except Exception:
+        # annule en cas d’erreur
         conn.rollback()
         logger.exception("purge checkpoints échouée")
     finally:
+        # retourne la connexion au pool
         conn.close()
