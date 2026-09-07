@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.ibm.rules.studio.model.decisionservice:Operation xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.ibm.rules.studio.model.decisionservice="http://com.ibm.rules.studio/model/decisionservice.ecore" xmlns:ilog.rules.studio.model.query.extractor="http://ilog.rules.studio/model/query/extractor.ecore" rulesetName="evaluerCreditImmobilier" usingRuleflow="true" ruleflowName="flux_credit" targetRuleProjectName="BRMS">
+  <name>evaluerCreditImmobilier</name>
+  <uuid>87df6b09-f034-41c9-be72-6032282afbac</uuid>
+  <referencedVariables variableName="request" variableSetName="parameters">
+    <variableSet href="../règles/parameters.var#01fb32cb-7149-4433-aece-df6f103da8a8"/>
+  </referencedVariables>
+  <referencedVariables variableName="response" variableSetName="parameters" direction="OUT">
+    <variableSet href="../règles/parameters.var#01fb32cb-7149-4433-aece-df6f103da8a8"/>
+  </referencedVariables>
+  <ruleflow href="../règles/flux_credit.rfl#bdb5986d-38d6-4650-85ab-3aa5773aeac5"/>
+  <extractor xsi:type="ilog.rules.studio.model.query.extractor:QueryExtractor" name="evaluerCreditImmobilier_extractor" validator="Default Validator"/>
+  <targetRuleProject href="../../BRMS#e2959939-b982-40b7-8ec4-993cbc582834"/>
+</com.ibm.rules.studio.model.decisionservice:Operation>

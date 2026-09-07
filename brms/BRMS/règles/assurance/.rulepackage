@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.base:RulePackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.base="http://ilog.rules.studio/model/base.ecore">
+  <name>assurance</name>
+  <uuid>932941f1-1df0-47c0-af47-877159490708</uuid>
+</ilog.rules.studio.model.base:RulePackage>

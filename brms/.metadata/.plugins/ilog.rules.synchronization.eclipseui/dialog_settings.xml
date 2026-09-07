@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="TeamServerConfigurationWizard">
+		<item key="ilog.rules.synchronization.eclipseui.STORE_AUTH_METHOD" value="LOGIN"/>
+		<list key="ilog.rules.synchronization.eclipseui.STORE_URL">
+			<item value="http://localhost:9060/decisioncenter"/>
+		</list>
+		<list key="ilog.rules.synchronization.eclipseui.STORE_DATA_SOURCES">
+			<item value=""/>
+		</list>
+		<list key="ilog.rules.synchronization.eclipseui.STORE_USER_NAMES">
+			<item value="odmAdmin"/>
+		</list>
+	</section>
+</section>

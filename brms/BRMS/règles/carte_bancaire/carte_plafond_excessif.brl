@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.brl:ActionRule xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.brl="http://ilog.rules.studio/model/brl.ecore">
+  <name>carte_plafond_excessif</name>
+  <uuid>cb563479-0289-4990-b450-3c3cb7c5a64b</uuid>
+  <locale>fr_FR</locale>
+  <definition><![CDATA[si l'operation de requestCarte est "plafond" et le plafond de requestCarte est plus grand que 5000
+alors assigner le decision de responseCarte à "VERIFICATION_REQUISE";
+ajouter "regle_plafond_excessif" aux règles déclenchées de responseCarte ;]]></definition>
+</ilog.rules.studio.model.brl:ActionRule>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.brl:ActionRule xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.brl="http://ilog.rules.studio/model/brl.ecore">
+  <name>eligible</name>
+  <uuid>0e565ecd-c498-4a66-a5fa-e9495c27de25</uuid>
+  <locale>fr_FR</locale>
+  <definition><![CDATA[si le nombre d'éléments parmi les rules fired de response est 0
+alors
+   assigner le decision de response à "ELIGIBLE" ;
+   ajouter "CRITERES_OK" aux règles déclenchées de response ;]]></definition>
+</ilog.rules.studio.model.brl:ActionRule>

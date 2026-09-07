@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.brl:ActionRule xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.brl="http://ilog.rules.studio/model/brl.ecore">
+  <name>assurance_versement_initial_ok</name>
+  <uuid>18b321ef-ab36-427e-a748-be829832b9c4</uuid>
+  <locale>fr_FR</locale>
+  <definition><![CDATA[si l'operation de requestAssurance est "souscription" et le montant initial de requestAssurance est au moins 1000
+alors ajouter "regle_versement_initial_ok" aux règles déclenchées de responseAssurance ;    ]]></definition>
+</ilog.rules.studio.model.brl:ActionRule>

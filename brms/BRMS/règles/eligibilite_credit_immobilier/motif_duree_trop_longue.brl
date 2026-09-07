@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.brl:ActionRule xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.brl="http://ilog.rules.studio/model/brl.ecore">
+  <name>motif_duree_trop_longue</name>
+  <uuid>b0678d19-ed76-48e7-8ab2-ef240a3c1a04</uuid>
+  <locale>fr_FR</locale>
+  <definition><![CDATA[si le duree mois de request est plus grand que 300 
+
+alors ajouter "DUREE_TROP_LONGUE" aux règles déclenchées de response ;  ]]></definition>
+</ilog.rules.studio.model.brl:ActionRule>

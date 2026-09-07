@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.brl:ActionRule xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.brl="http://ilog.rules.studio/model/brl.ecore">
+  <name>assurance_versement_libre</name>
+  <uuid>0e1b23b9-f1b1-4f66-8a5c-5ed3e4ca69e1</uuid>
+  <locale>fr_FR</locale>
+  <definition><![CDATA[si l'operation de requestAssurance est "versement"
+alors ajouter "regle_versement_libre_autorise" aux règles déclenchées de responseAssurance ;   ]]></definition>
+</ilog.rules.studio.model.brl:ActionRule>

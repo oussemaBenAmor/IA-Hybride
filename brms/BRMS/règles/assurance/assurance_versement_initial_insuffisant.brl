@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.brl:ActionRule xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.brl="http://ilog.rules.studio/model/brl.ecore">
+  <name>assurance_versement_initial_insuffisant</name>
+  <uuid>11b2468a-1ded-444e-b8fc-0c9240654d3a</uuid>
+  <locale>fr_FR</locale>
+  <definition><![CDATA[si l'operation de requestAssurance est "souscription" et le montant initial de requestAssurance est plus petit que 1000
+alors assigner le decision de responseAssurance à "REFUSE";
+  ajouter "regle_versement_initial_insuffisant" aux règles déclenchées de responseAssurance ;]]></definition>
+</ilog.rules.studio.model.brl:ActionRule>

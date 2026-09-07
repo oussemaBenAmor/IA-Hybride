@@ -1,0 +1,57 @@
+# Vocabulary Properties
+uuid = 63d3474c-b4ba-4d0d-af77-587bb54155a0
+
+# com.banque.domain.AssuranceVieRequest
+com.banque.domain.AssuranceVieRequest#concept.label = assurance vie request
+com.banque.domain.AssuranceVieRequest.age#phrase.action = assigner l'age {this,PARTITIVE_ARTICLE} à {age}
+com.banque.domain.AssuranceVieRequest.age#phrase.navigation = {age} {this,PARTITIVE_ARTICLE}
+com.banque.domain.AssuranceVieRequest.montantInitial#phrase.action = assigner le montant initial {this,PARTITIVE_ARTICLE} à {montant initial}
+com.banque.domain.AssuranceVieRequest.montantInitial#phrase.navigation = {montant initial} {this,PARTITIVE_ARTICLE}
+com.banque.domain.AssuranceVieRequest.operation#phrase.action = assigner l'operation {this,PARTITIVE_ARTICLE} à {operation}
+com.banque.domain.AssuranceVieRequest.operation#phrase.navigation = {operation} {this,PARTITIVE_ARTICLE}
+
+# com.banque.domain.CarteBancaireRequest
+com.banque.domain.CarteBancaireRequest#concept.label = carte bancaire request
+com.banque.domain.CarteBancaireRequest.operation#phrase.action = assigner l'operation {this, PARTITIVE_ARTICLE} à {operation}
+com.banque.domain.CarteBancaireRequest.operation#phrase.navigation = {operation} {this, PARTITIVE_ARTICLE}
+com.banque.domain.CarteBancaireRequest.plafond#phrase.action = assigner le plafond {this, PARTITIVE_ARTICLE} à {plafond}
+com.banque.domain.CarteBancaireRequest.plafond#phrase.navigation = {plafond} {this, PARTITIVE_ARTICLE}
+
+# com.banque.domain.CreditRequest
+com.banque.domain.CreditRequest#concept.label = credit request
+com.banque.domain.CreditRequest.age#phrase.action = assigner l'age {this, PARTITIVE_ARTICLE} à {age}
+com.banque.domain.CreditRequest.age#phrase.navigation = {age} {this, PARTITIVE_ARTICLE}
+com.banque.domain.CreditRequest.apport#phrase.action = assigner l'apport {this, PARTITIVE_ARTICLE} à {apport}
+com.banque.domain.CreditRequest.apport#phrase.navigation = {apport} {this, PARTITIVE_ARTICLE}
+com.banque.domain.CreditRequest.dureeMois#phrase.action = assigner le duree mois {this, PARTITIVE_ARTICLE} à {duree mois}
+com.banque.domain.CreditRequest.dureeMois#phrase.navigation = {duree mois} {this, PARTITIVE_ARTICLE}
+com.banque.domain.CreditRequest.montant#phrase.action = assigner le montant {this, PARTITIVE_ARTICLE} à {montant}
+com.banque.domain.CreditRequest.montant#phrase.navigation = {montant} {this, PARTITIVE_ARTICLE}
+com.banque.domain.CreditRequest.revenuMensuel#phrase.action = assigner le revenu mensuel {this, PARTITIVE_ARTICLE} à {revenu mensuel}
+com.banque.domain.CreditRequest.revenuMensuel#phrase.navigation = {revenu mensuel} {this, PARTITIVE_ARTICLE}
+
+# com.banque.domain.Decision
+com.banque.domain.Decision#concept.label = decision
+com.banque.domain.Decision.addRule(java.lang.String)#phrase.action = ajouter {0} aux règles déclenchées de {this}
+com.banque.domain.Decision.ageFinPret#phrase.action = assigner l'age fin pret {this, PARTITIVE_ARTICLE} à {age fin pret}
+com.banque.domain.Decision.ageFinPret#phrase.navigation = {age fin pret} {this, PARTITIVE_ARTICLE}
+com.banque.domain.Decision.calculer(double,double,int,int)#phrase.action = {this}.calculer({0}, {1}, {2}, {3})
+com.banque.domain.Decision.decision#phrase.action = assigner le decision {this, PARTITIVE_ARTICLE} à {decision}
+com.banque.domain.Decision.decision#phrase.navigation = {decision} {this, PARTITIVE_ARTICLE}
+com.banque.domain.Decision.mensualiteEstimee#phrase.action = assigner le mensualite estimee {this, PARTITIVE_ARTICLE} à {mensualite estimee}
+com.banque.domain.Decision.mensualiteEstimee#phrase.navigation = {mensualite estimee} {this, PARTITIVE_ARTICLE}
+com.banque.domain.Decision.montantMaxEmpruntable#phrase.action = assigner le montant max empruntable {this, PARTITIVE_ARTICLE} à {montant max empruntable}
+com.banque.domain.Decision.montantMaxEmpruntable#phrase.navigation = {montant max empruntable} {this, PARTITIVE_ARTICLE}
+com.banque.domain.Decision.rulesFired#phrase.action = assigner les rules fired {this, PARTITIVE_ARTICLE} à {rules fired}
+com.banque.domain.Decision.rulesFired#phrase.navigation = {rules fired} {this, PARTITIVE_ARTICLE}
+com.banque.domain.Decision.tauxEndettement#phrase.action = assigner le taux endettement {this, PARTITIVE_ARTICLE} à {taux endettement}
+com.banque.domain.Decision.tauxEndettement#phrase.navigation = {taux endettement} {this, PARTITIVE_ARTICLE}
+
+# com.banque.domain.VirementRequest
+com.banque.domain.VirementRequest#concept.label = virement request
+com.banque.domain.VirementRequest.iban#phrase.action = assigner l'iban {this, PARTITIVE_ARTICLE} à {iban}
+com.banque.domain.VirementRequest.iban#phrase.navigation = {iban} {this, PARTITIVE_ARTICLE}
+com.banque.domain.VirementRequest.montant#phrase.action = assigner le montant {this, PARTITIVE_ARTICLE} à {montant}
+com.banque.domain.VirementRequest.montant#phrase.navigation = {montant} {this, PARTITIVE_ARTICLE}
+com.banque.domain.VirementRequest.typeVirement#phrase.action = assigner le type virement {this, PARTITIVE_ARTICLE} à {type virement}
+com.banque.domain.VirementRequest.typeVirement#phrase.navigation = {type virement} {this, PARTITIVE_ARTICLE}

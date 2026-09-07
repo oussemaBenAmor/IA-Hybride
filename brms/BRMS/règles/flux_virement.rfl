@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.ruleflow:RuleFlow xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.ruleflow="http://ilog.rules.studio/model/ruleflow.ecore">
+  <name>flux_virement</name>
+  <uuid>85293def-e7f2-49f0-9199-21675f93cc1f</uuid>
+  <locale>fr_FR</locale>
+  <categories>any</categories>
+  <rfModel>
+<Ruleflow xmlns="http://schemas.ilog.com/Rules/7.0/Ruleflow">
+  <Body>
+    <TaskList>
+      <StartTask Identifier="task_0"/>
+      <RuleTask ExecutionMode="RetePlus" ExitCriteria="None" Identifier="verification" Ordering="Default">
+        <InitialActions Language="irl"><![CDATA[responseVirement = new com.banque.domain.Decision();
+responseVirement.decision = "APPROUVE";]]></InitialActions>
+        <RuleList>
+          <Package Name="virement"/>
+        </RuleList>
+      </RuleTask>
+      <StopTask Identifier="task_2"/>
+    </TaskList>
+    <NodeList>
+      <TaskNode Identifier="node2" Task="task_0"/>
+      <TaskNode Identifier="node3" Task="verification"/>
+      <TaskNode Identifier="node4" Task="task_2"/>
+    </NodeList>
+    <TransitionList>
+      <Transition Identifier="link5" Source="node2" Target="node3"/>
+      <Transition Identifier="link6" Source="node3" Target="node4"/>
+    </TransitionList>
+  </Body>
+  <Resources>
+    <ResourceSet Locale="fr_FR">
+      <Data Name="node3#y">214.0</Data>
+      <Data Name="node4#x">310.0</Data>
+      <Data Name="node2#y">122.0</Data>
+      <Data Name="node3#x">336.0</Data>
+      <Data Name="node2#x">336.0</Data>
+      <Data Name="node4#y">313.0</Data>
+    </ResourceSet>
+  </Resources>
+  <Properties/>
+</Ruleflow>
+</rfModel>
+</ilog.rules.studio.model.ruleflow:RuleFlow>

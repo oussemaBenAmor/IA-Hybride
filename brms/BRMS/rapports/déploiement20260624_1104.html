@@ -1,0 +1,146 @@
+<html xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <head>
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Rapport de d&eacute;ploiement - deploiement_credit</title>
+        <style type="text/css">
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: x-small;
+}
+
+table {
+    margin-bottom: 5px;
+    background-image: url(img/bg_header.jpg);
+    width: 100%;
+    border-collapse:collapse;
+}
+
+span.title {
+    color: #FFFFFF;
+    font-size: medium;
+    margin: 0;
+    padding: 0 0 0 10px;
+    width: 105%;
+}
+
+span.section {
+    color: #003366;
+    border-bottom: 1px solid #00000;
+    font-size: small;
+    margin: 0 3% 0 3%;
+    padding: 3px;
+    width: 94%;
+}
+
+span.end {
+    border: 0;
+}
+
+span.value {
+    font-variant: italic;
+    margin-right: 5px;
+    background-color: #EEEEEE;
+}
+
+ul {
+    width: 94%;
+    margin: 0 3% 10px 3%;
+    padding: 0;
+}
+
+li {
+    padding: 1px 1px 1px 7px;
+    list-style: none;
+    background-color: #FFFFFF;
+    vertical-align: top;
+}
+
+li.bandit {
+    background-color: #F9F9FD;
+}
+
+span.message {
+    vertical-align: top;
+}
+
+div.exception {
+    margin: 0 5px 5px 10px;
+    padding: 3px;
+    background-color: #EEEEEE;
+    border: 1px solid #999999;
+}
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <td nowrap="nowrap" style="background-image:url(img/bg_header.jpg);">
+                    <table>
+                        <tr>
+                            <td valign="middle" nowrap="nowrap" style="background-image:url(img/title_left.jpg)"><span class="title">Rapport de d&eacute;ploiement - deploiement_credit</span>
+                                <br>
+                            </td><td><img src="img/title_right.jpg" alt=""></td>
+                        </tr>
+                    </table>
+                </td><td valign="middle" align="right" nowrap="nowrap" style="padding-right:10px;"><img src="img/IBM_1px_white_no_border.gif" alt=""></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="right" valign="middle" height="20"></td>
+            </tr>
+        </table>
+        <span class="section">Information sur la RuleApp - deploiement_credit</span>
+        <ul>
+            <li>
+                <img src="img/info.png" alt="Nom du fichier : deploiement_credit.jar"><span class="message">Nom du fichier : deploiement_credit.jar</span>
+            </li>
+            <li class="bandit">
+                <img src="img/info.png" alt="Version : 1.0"><span class="message">Version : 1.0</span>
+            </li>
+        </ul>
+        <span class="section">Information sur l'ensemble de r&egrave;gles - evaluerCreditImmobilier</span>
+        <ul>
+            <li>
+                <img src="img/info.png" alt="Nom du fichier : evaluerCreditImmobilier.dsar"><span class="message">Nom du fichier : evaluerCreditImmobilier.dsar</span>
+            </li>
+            <li class="bandit">
+                <img src="img/info.png" alt="Version : 1.4"><span class="message">Version : 1.4</span>
+            </li>
+        </ul>
+        <span class="section">D&eacute;ploiement du mod&egrave;le d'objet d'ex&eacute;cution (XOM)</span>
+        <ul>
+            <li>
+                <img src="img/info.png" alt="L'op&eacute;ration de d&eacute;cision 'evaluerCreditImmobilier' fait r&eacute;f&eacute;rence au projet de r&egrave;gles cible suivant : [BRMS]."><span class="message">L'op&eacute;ration de d&eacute;cision 'evaluerCreditImmobilier' fait r&eacute;f&eacute;rence au projet de r&egrave;gles cible suivant : [BRMS].</span>
+            </li>
+            <li class="bandit">
+                <img src="img/info.png" alt="Les ressources XOM suivantes ont &eacute;t&eacute; trouv&eacute;es pour le projet de r&egrave;gles 'BRMS' : [C:\Users\OussamaBENAMOR\Desktop\nouveau ws\brms\BRMS\xom-lib\odm-domain-1.0.0.jar]."><span class="message">Les ressources XOM suivantes ont &eacute;t&eacute; trouv&eacute;es pour le projet de r&egrave;gles 'BRMS' : [C:\Users\OussamaBENAMOR\Desktop\nouveau ws\brms\BRMS\xom-lib\odm-domain-1.0.0.jar].</span>
+            </li>
+            <li>
+                <img src="img/info.png" alt="La ressource 'odm-domain-1.0.0.jar' est d&eacute;j&agrave; d&eacute;ploy&eacute;e en version '2.0' sur docker RES (http://localhost:9060/res). Elle est ignor&eacute;e."><span class="message">La ressource 'odm-domain-1.0.0.jar' est d&eacute;j&agrave; d&eacute;ploy&eacute;e en version '2.0' sur docker RES (http://localhost:9060/res). Elle est ignor&eacute;e.</span>
+            </li>
+            <li class="bandit">
+                <img src="img/info.png" alt="La biblioth&egrave;que 'deploiement_credit_library' version '1.1' sur docker RES (http://localhost:9060/res) r&eacute;f&eacute;rence la ou les ressources est d&eacute;j&agrave; d&eacute;ploy&eacute;e. Elle est ignor&eacute;e."><span class="message">La biblioth&egrave;que 'deploiement_credit_library' version '1.1' sur docker RES (http://localhost:9060/res) r&eacute;f&eacute;rence la ou les ressources est d&eacute;j&agrave; d&eacute;ploy&eacute;e. Elle est ignor&eacute;e.</span>
+            </li>
+        </ul>
+        <span class="section">Statut de g&eacute;n&eacute;ration de la RuleApp</span>
+        <ul>
+            <li>
+                <img src="img/info.png" alt="Fichier RuleApp &eacute;crit dans : C:\Users\OussamaBENAMOR\Desktop\nouveau ws\brms\BRMS\sortie\deploiement_credit.jar"><span class="message">Fichier RuleApp &eacute;crit dans : C:\Users\OussamaBENAMOR\Desktop\nouveau ws\brms\BRMS\sortie\deploiement_credit.jar</span>
+            </li>
+            <li class="bandit">
+                <img src="img/info.png" alt="G&eacute;n&eacute;ration de la RuleApp termin&eacute;e sans erreur."><span class="message">G&eacute;n&eacute;ration de la RuleApp termin&eacute;e sans erreur.</span>
+            </li>
+        </ul>
+        <span class="section">D&eacute;ploiement de la RuleApp</span>
+        <ul>
+            <li>
+                <img src="img/info.png" alt="La version '1.4' de l'ensemble de r&egrave;gles 'evaluerCreditImmobilier' a &eacute;t&eacute; d&eacute;ploy&eacute;e avec succ&egrave;s sur docker RES (http://localhost:9060/res)."><span class="message">La version '1.4' de l'ensemble de r&egrave;gles 'evaluerCreditImmobilier' a &eacute;t&eacute; d&eacute;ploy&eacute;e avec succ&egrave;s sur docker RES (http://localhost:9060/res).</span>
+            </li>
+            <li class="bandit">
+                <img src="img/info.png" alt="La RuleApp a bien &eacute;t&eacute; d&eacute;ploy&eacute;e sur docker RES (http://localhost:9060/res)."><span class="message">La RuleApp a bien &eacute;t&eacute; d&eacute;ploy&eacute;e sur docker RES (http://localhost:9060/res).</span>
+            </li>
+        </ul>
+        <span class="section end">Le d&eacute;ploiement a abouti</span>
+    </body>
+</html>

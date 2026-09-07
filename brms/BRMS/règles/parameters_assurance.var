@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.base:VariableSet xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.base="http://ilog.rules.studio/model/base.ecore">
+  <name>parameters_assurance</name>
+  <uuid>75119e1f-6e7e-4a6d-b523-d4cf3bde4fe8</uuid>
+  <variables name="requestAssurance" type="com.banque.domain.AssuranceVieRequest" initialValue="new com.banque.domain.AssuranceVieRequest()" verbalization="requestAssurance"/>
+  <variables name="responseAssurance" type="com.banque.domain.Decision" initialValue="" verbalization="responseAssurance"/>
+</ilog.rules.studio.model.base:VariableSet>

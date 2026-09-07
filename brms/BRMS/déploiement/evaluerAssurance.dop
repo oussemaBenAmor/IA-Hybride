@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.ibm.rules.studio.model.decisionservice:Operation xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.ibm.rules.studio.model.decisionservice="http://com.ibm.rules.studio/model/decisionservice.ecore" xmlns:ilog.rules.studio.model.query.extractor="http://ilog.rules.studio/model/query/extractor.ecore" rulesetName="evaluerAssurance" usingRuleflow="true" ruleflowName="flux_assurance" targetRuleProjectName="BRMS">
+  <name>evaluerAssurance</name>
+  <uuid>d6ce50e0-eca8-46e9-ac27-41f4fea36c8a</uuid>
+  <referencedVariables variableName="requestAssurance" variableSetName="parameters_assurance">
+    <variableSet href="../règles/parameters_assurance.var#75119e1f-6e7e-4a6d-b523-d4cf3bde4fe8"/>
+  </referencedVariables>
+  <referencedVariables variableName="responseAssurance" variableSetName="parameters_assurance" direction="OUT">
+    <variableSet href="../règles/parameters_assurance.var#75119e1f-6e7e-4a6d-b523-d4cf3bde4fe8"/>
+  </referencedVariables>
+  <ruleflow href="../règles/flux_assurance.rfl#adcb69bf-b4a6-48ba-a84e-de43c358f41a"/>
+  <extractor xsi:type="ilog.rules.studio.model.query.extractor:QueryExtractor" name="evaluerAssurance_extractor" validator="Default Validator"/>
+  <targetRuleProject href="../../BRMS#e2959939-b982-40b7-8ec4-993cbc582834"/>
+</com.ibm.rules.studio.model.decisionservice:Operation>

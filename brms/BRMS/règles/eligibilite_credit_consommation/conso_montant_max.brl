@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.brl:ActionRule xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.brl="http://ilog.rules.studio/model/brl.ecore">
+  <name>conso_montant_max</name>
+  <uuid>cfb91467-8d59-4efc-a0a9-53aab47d0a4f</uuid>
+  <locale>fr_FR</locale>
+  <definition><![CDATA[si le montant de request est plus grand que 75000
+alors assigner le decision de response à "REFUSE";  
+ajouter "regle_plafond_conso_depasse" aux règles déclenchées de response ;]]></definition>
+</ilog.rules.studio.model.brl:ActionRule>

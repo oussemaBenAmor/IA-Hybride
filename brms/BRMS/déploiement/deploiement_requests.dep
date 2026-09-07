@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.ibm.rules.studio.model.decisionservice:Deployment xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.ibm.rules.studio.model.decisionservice="http://com.ibm.rules.studio/model/decisionservice.ecore" ruleAppName="deploiement_requests" ruleAppVersion="1.1" managingXom="true">
+  <name>deploiement_requests</name>
+  <uuid>252ee449-b679-48b1-9b03-5e9307f42f02</uuid>
+  <targets label="docker RES"/>
+  <operations operationName="evaluerCreditConsommation">
+    <operation href="evaluerCreditConsommation.dop#6b8317b9-f260-4676-9633-f25f42eae0e5"/>
+    <properties key="ruleset.version">
+      <value><![CDATA[1.0]]></value>
+    </properties>
+  </operations>
+  <operations operationName="evaluerCreditImmobilier">
+    <operation href="evaluerCreditImmobilier.dop#87df6b09-f034-41c9-be72-6032282afbac"/>
+    <properties key="ruleset.version">
+      <value><![CDATA[1.0]]></value>
+    </properties>
+  </operations>
+  <operations operationName="evaluerVirement">
+    <operation href="evaluerVirement.dop#688cd40c-8cc4-4a0d-bafe-123bded4c80d"/>
+    <properties key="ruleset.version">
+      <value><![CDATA[1.0]]></value>
+    </properties>
+  </operations>
+  <operations operationName="evaluerAssurance">
+    <operation href="evaluerAssurance.dop#d6ce50e0-eca8-46e9-ac27-41f4fea36c8a"/>
+    <properties key="ruleset.version">
+      <value><![CDATA[1.0]]></value>
+    </properties>
+  </operations>
+  <operations operationName="evaluerCarte">
+    <operation href="evaluerCarte.dop#07b2c4ee-725c-4423-ba7d-4756e7f14d99"/>
+    <properties key="ruleset.version">
+      <value><![CDATA[1.0]]></value>
+    </properties>
+  </operations>
+  <versionPolicies label="Incrémenter les numéros de version mineure" ruleset="INCREMENT_MINOR" default="true" recurrent="true">
+    <description><![CDATA[Met à jour la version mineure pour chaque ensemble de règles. La nouvelle version devient disponible mais les versions précédentes sont conservées.]]></description>
+  </versionPolicies>
+  <versionPolicies label="Utiliser les numéros de version de base" recurrent="true">
+    <description><![CDATA[Utilise les numéros fournis dans la configuration de déploiement. Remplace la dernière version de chaque ensemble de règles par cette édition. Utilisé pour les correctifs logiciels ou le développement.]]></description>
+  </versionPolicies>
+  <versionPolicies label="L'utilisateur peut définir les numéros de version" ruleset="MANUAL" recurrent="true">
+    <description><![CDATA[Vous permet d'entrer vos propres numéros de version. Utilisé pour les correctifs logiciels ou les mises à jour d'une édition précédente.]]></description>
+  </versionPolicies>
+  <deploymentProperties key="monitoring.enabled">
+    <value><![CDATA[true]]></value>
+  </deploymentProperties>
+  <deploymentProperties key="ruleset.bom.enabled">
+    <value><![CDATA[true]]></value>
+  </deploymentProperties>
+  <deploymentProperties key="ruleset.sequential.trace.enabled">
+    <value><![CDATA[true]]></value>
+  </deploymentProperties>
+</com.ibm.rules.studio.model.decisionservice:Deployment>

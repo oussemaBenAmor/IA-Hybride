@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.ibm.rules.studio.model.decisionservice:Operation xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.ibm.rules.studio.model.decisionservice="http://com.ibm.rules.studio/model/decisionservice.ecore" xmlns:ilog.rules.studio.model.query.extractor="http://ilog.rules.studio/model/query/extractor.ecore" rulesetName="evaluerCarte" usingRuleflow="true" ruleflowName="flux_carte" targetRuleProjectName="BRMS">
+  <name>evaluerCarte</name>
+  <uuid>07b2c4ee-725c-4423-ba7d-4756e7f14d99</uuid>
+  <referencedVariables variableName="requestCarte" variableSetName="parameters_carte">
+    <variableSet href="../règles/parameters_carte.var#4fe37e7b-3cc8-4693-bd61-b915c6c0de73"/>
+  </referencedVariables>
+  <referencedVariables variableName="responseCarte" variableSetName="parameters_carte" direction="OUT">
+    <variableSet href="../règles/parameters_carte.var#4fe37e7b-3cc8-4693-bd61-b915c6c0de73"/>
+  </referencedVariables>
+  <ruleflow href="../règles/flux_carte.rfl#15593da9-b359-473c-ac67-19135a48200f"/>
+  <extractor xsi:type="ilog.rules.studio.model.query.extractor:QueryExtractor" name="evaluerCarte_extractor" validator="Default Validator"/>
+  <targetRuleProject href="../../BRMS#e2959939-b982-40b7-8ec4-993cbc582834"/>
+</com.ibm.rules.studio.model.decisionservice:Operation>

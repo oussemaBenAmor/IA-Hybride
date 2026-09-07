@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.brl:ActionRule xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.brl="http://ilog.rules.studio/model/brl.ecore">
+  <name>carte_plafond_a_preciser</name>
+  <uuid>e8c89d12-ceb7-447d-bb59-6e83e3540c29</uuid>
+  <locale>fr_FR</locale>
+  <definition><![CDATA[si l'operation de requestCarte est "plafond" et le plafond de requestCarte est au plus 0
+alors assigner le decision de responseCarte à "VERIFICATION_REQUISE";   
+ajouter "regle_plafond_a_preciser" aux règles déclenchées de responseCarte ;
+]]></definition>
+</ilog.rules.studio.model.brl:ActionRule>

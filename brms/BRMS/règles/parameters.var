@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.base:VariableSet xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.base="http://ilog.rules.studio/model/base.ecore">
+  <name>parameters</name>
+  <uuid>01fb32cb-7149-4433-aece-df6f103da8a8</uuid>
+  <variables name="request" type="com.banque.domain.CreditRequest" initialValue="new com.banque.domain.CreditRequest()" verbalization="request"/>
+  <variables name="response" type="com.banque.domain.Decision" initialValue="" verbalization="response"/>
+</ilog.rules.studio.model.base:VariableSet>

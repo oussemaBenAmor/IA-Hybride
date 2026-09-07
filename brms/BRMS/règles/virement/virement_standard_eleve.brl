@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.brl:ActionRule xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.brl="http://ilog.rules.studio/model/brl.ecore">
+  <name>virement_standard_eleve</name>
+  <uuid>4b55f359-9cc9-4e75-a271-26af42745331</uuid>
+  <locale>fr_FR</locale>
+  <definition><![CDATA[si le type virement de requestVirement est "standard" et le montant de requestVirement est plus grand que 50000
+alors assigner le decision de responseVirement à "VERIFICATION_REQUISE";
+ ajouter "regle_virement_montant_eleve" aux règles déclenchées de responseVirement ;  ]]></definition>
+</ilog.rules.studio.model.brl:ActionRule>

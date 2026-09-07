@@ -1,0 +1,48 @@
+# === Configuration sensible (mots de passe, connexions RES/BD) ===
+src/main/resources/application.properties
+src/main/resources/application-*.properties
+
+# === Compilation Maven ===
+target/
+HELP.md
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# === Compilation Gradle (si utilisé) ===
+build/
+.gradle/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# === Fichiers ODM générés ===
+*.dsar
+
+# === Eclipse / STS (Spring Tool Suite) ===
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+
+# === IntelliJ IDEA ===
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# === NetBeans ===
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# === VS Code ===
+.vscode/
+
+# === OS ===
+.DS_Store
+Thumbs.db

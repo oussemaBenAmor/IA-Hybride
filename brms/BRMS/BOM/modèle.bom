@@ -1,0 +1,53 @@
+
+#loadGetterSetterAsProperties
+property origin "xom:/BRMS//odm-domain"
+property uuid "5111b61c-f308-47d4-b823-c8e6018f5062"
+package com.banque.domain;
+
+
+class AssuranceVieRequest
+{
+    int age;
+    double montantInitial;
+    string operation;
+    AssuranceVieRequest();
+}
+
+class CarteBancaireRequest
+{
+    string operation;
+    double plafond;
+    CarteBancaireRequest();
+}
+
+class CreditRequest
+{
+    int age;
+    double apport;
+    int dureeMois;
+    double montant;
+    double revenuMensuel;
+    CreditRequest();
+}
+
+class Decision
+{
+    double ageFinPret;
+    string decision;
+    double mensualiteEstimee;
+    double montantMaxEmpruntable;
+    java.util.List rulesFired domain 0,* class string;
+    double tauxEndettement;
+    Decision();
+    void addRule(string arg);
+    void calculer(double arg1, double arg2, int arg3, int arg4);
+}
+
+class VirementRequest
+{
+    string iban;
+    double montant;
+    string typeVirement;
+    VirementRequest();
+}
+

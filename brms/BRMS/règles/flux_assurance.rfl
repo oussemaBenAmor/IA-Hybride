@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.ruleflow:RuleFlow xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.ruleflow="http://ilog.rules.studio/model/ruleflow.ecore">
+  <name>flux_assurance</name>
+  <uuid>adcb69bf-b4a6-48ba-a84e-de43c358f41a</uuid>
+  <locale>fr_FR</locale>
+  <categories>any</categories>
+  <rfModel>
+<Ruleflow xmlns="http://schemas.ilog.com/Rules/7.0/Ruleflow">
+  <Body>
+    <TaskList>
+      <StartTask Identifier="task_0"/>
+      <RuleTask ExecutionMode="RetePlus" ExitCriteria="None" Identifier="verification" Ordering="Default">
+        <InitialActions Language="irl"><![CDATA[responseAssurance = new com.banque.domain.Decision();
+responseAssurance.decision = "ELIGIBLE";]]></InitialActions>
+        <RuleList>
+          <Package Name="assurance"/>
+        </RuleList>
+      </RuleTask>
+      <StopTask Identifier="task_2"/>
+    </TaskList>
+    <NodeList>
+      <TaskNode Identifier="node2" Task="task_0"/>
+      <TaskNode Identifier="node3" Task="verification"/>
+      <TaskNode Identifier="node4" Task="task_2"/>
+    </NodeList>
+    <TransitionList>
+      <Transition Identifier="link5" Source="node2" Target="node3"/>
+      <Transition Identifier="link6" Source="node3" Target="node4"/>
+    </TransitionList>
+  </Body>
+  <Resources>
+    <ResourceSet Locale="fr_FR">
+      <Data Name="node3#y">160.0</Data>
+      <Data Name="node4#x">159.0</Data>
+      <Data Name="node2#y">107.0</Data>
+      <Data Name="node3#x">172.0</Data>
+      <Data Name="node2#x">181.0</Data>
+      <Data Name="node4#y">236.0</Data>
+    </ResourceSet>
+  </Resources>
+  <Properties/>
+</Ruleflow>
+</rfModel>
+</ilog.rules.studio.model.ruleflow:RuleFlow>

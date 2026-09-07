@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><ImpactedElements>
+    <Rule id="b0678d19-ed76-48e7-8ab2-ef240a3c1a04" path="règles/eligibilite_credit_immobilier/motif_duree_trop_longue.brl">
+        <UserFlow id="bdb5986d-38d6-4650-85ab-3aa5773aeac5"/>
+    </Rule>
+    <Rule id="b8335782-5b9b-4687-824e-ee0a9245a1e4" path="règles/eligibilite_credit_immobilier/motif_age.brl">
+        <UserFlow id="bdb5986d-38d6-4650-85ab-3aa5773aeac5"/>
+    </Rule>
+    <Rule id="7e90bfff-2676-4cae-9627-2b69d34586ae" path="règles/eligibilite_credit_consommation/motif_endettement.brl">
+        <UserFlow id="41471764-f309-4392-b920-287e8ca050f4"/>
+    </Rule>
+    <Rule id="40d1de9f-6d3c-4741-9594-7f8af1e6d76d" path="règles/eligibilite_credit_immobilier/motif_montant_insuffisant.brl">
+        <UserFlow id="bdb5986d-38d6-4650-85ab-3aa5773aeac5"/>
+    </Rule>
+    <Rule id="3cfc0fd4-9757-4c2c-b70c-40d1350f53d2" path="règles/eligibilite_credit_consommation/eligible.brl">
+        <UserFlow id="41471764-f309-4392-b920-287e8ca050f4"/>
+    </Rule>
+    <Rule id="0e565ecd-c498-4a66-a5fa-e9495c27de25" path="règles/eligibilite_credit_immobilier/eligible.brl">
+        <UserFlow id="bdb5986d-38d6-4650-85ab-3aa5773aeac5"/>
+    </Rule>
+    <Rule id="52390da0-69f0-46c7-84dc-b6915cf48a28" path="règles/eligibilite_credit_immobilier/motif_taux_endettement.brl">
+        <UserFlow id="bdb5986d-38d6-4650-85ab-3aa5773aeac5"/>
+    </Rule>
+    <Rule id="cfb91467-8d59-4efc-a0a9-53aab47d0a4f" path="règles/eligibilite_credit_consommation/conso_montant_max.brl">
+        <UserFlow id="41471764-f309-4392-b920-287e8ca050f4"/>
+    </Rule>
+    <Rule id="2eae5e18-eb08-4764-9a72-8ce417632d06" path="règles/eligibilite_credit_consommation/conso_duree_max.brl">
+        <UserFlow id="41471764-f309-4392-b920-287e8ca050f4"/>
+    </Rule>
+    <Package id="assurance">
+        <UserFlow id="adcb69bf-b4a6-48ba-a84e-de43c358f41a"/>
+    </Package>
+    <Package id="carte_bancaire">
+        <UserFlow id="15593da9-b359-473c-ac67-19135a48200f"/>
+    </Package>
+    <Package id="virement">
+        <UserFlow id="85293def-e7f2-49f0-9199-21675f93cc1f"/>
+    </Package>
+</ImpactedElements>

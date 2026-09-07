@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.brl:ActionRule xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.brl="http://ilog.rules.studio/model/brl.ecore">
+  <name>virement_iban_manquant</name>
+  <uuid>d409e3b7-6554-4786-8b1d-aca8009c4d1f</uuid>
+  <locale>fr_FR</locale>
+  <definition><![CDATA[si l'iban de requestVirement est nul 
+alors assigner le decision de responseVirement à "VERIFICATION_REQUISE";
+     ajouter "regle_iban_manquant" aux règles déclenchées de responseVirement ;
+ ]]></definition>
+</ilog.rules.studio.model.brl:ActionRule>

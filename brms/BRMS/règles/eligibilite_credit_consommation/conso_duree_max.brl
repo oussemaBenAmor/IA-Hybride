@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.brl:ActionRule xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.brl="http://ilog.rules.studio/model/brl.ecore">
+  <name>conso_duree_max</name>
+  <uuid>2eae5e18-eb08-4764-9a72-8ce417632d06</uuid>
+  <locale>fr_FR</locale>
+  <definition><![CDATA[si le duree mois de request est plus grand que 84
+alors assigner le decision de response à "REFUSE";  
+ajouter "regle_duree_conso_depassee" aux règles déclenchées de response ;]]></definition>
+</ilog.rules.studio.model.brl:ActionRule>

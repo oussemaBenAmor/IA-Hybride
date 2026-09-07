@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.base:RulePackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.base="http://ilog.rules.studio/model/base.ecore">
+  <name>eligibilite_credit_consommation</name>
+  <uuid>1cfec09d-30e5-4e9a-b0e9-e6a1ae0e0ccd</uuid>
+</ilog.rules.studio.model.base:RulePackage>

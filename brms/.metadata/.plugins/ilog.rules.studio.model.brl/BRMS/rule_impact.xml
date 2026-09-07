@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8"?><impactTables>
+    <ruleTable>
+        <vocElt id="com.banque.domain.Decision/rulesFired/GETTER#0">
+            <rule id="3cfc0fd4-9757-4c2c-b70c-40d1350f53d2"/>
+            <rule id="0e565ecd-c498-4a66-a5fa-e9495c27de25"/>
+        </vocElt>
+        <vocElt id="com.banque.domain.Decision/tauxEndettement/GETTER#0">
+            <rule id="7e90bfff-2676-4cae-9627-2b69d34586ae"/>
+            <rule id="52390da0-69f0-46c7-84dc-b6915cf48a28"/>
+        </vocElt>
+        <vocElt id="com.banque.domain.CarteBancaireRequest/plafond/GETTER#0">
+            <rule id="cb563479-0289-4990-b450-3c3cb7c5a64b"/>
+            <rule id="e8c89d12-ceb7-447d-bb59-6e83e3540c29"/>
+            <rule id="ed1d9efd-77fc-47df-bb6e-f95ac2d05486"/>
+        </vocElt>
+        <vocElt id="com.banque.domain.Decision">
+            <rule id="cb563479-0289-4990-b450-3c3cb7c5a64b"/>
+            <rule id="b8335782-5b9b-4687-824e-ee0a9245a1e4"/>
+            <rule id="b0678d19-ed76-48e7-8ab2-ef240a3c1a04"/>
+            <rule id="7e90bfff-2676-4cae-9627-2b69d34586ae"/>
+            <rule id="11b2468a-1ded-444e-b8fc-0c9240654d3a"/>
+            <rule id="e8c89d12-ceb7-447d-bb59-6e83e3540c29"/>
+            <rule id="d409e3b7-6554-4786-8b1d-aca8009c4d1f"/>
+            <rule id="5677693f-029e-467b-846d-ff5e65b09ff9"/>
+            <rule id="0e565ecd-c498-4a66-a5fa-e9495c27de25"/>
+            <rule id="cfb91467-8d59-4efc-a0a9-53aab47d0a4f"/>
+            <rule id="2eae5e18-eb08-4764-9a72-8ce417632d06"/>
+            <rule id="18b321ef-ab36-427e-a748-be829832b9c4"/>
+            <rule id="0e1b23b9-f1b1-4f66-8a5c-5ed3e4ca69e1"/>
+            <rule id="3cfc0fd4-9757-4c2c-b70c-40d1350f53d2"/>
+            <rule id="40d1de9f-6d3c-4741-9594-7f8af1e6d76d"/>
+            <rule id="d777dfa7-46b6-4d6f-8777-b2cff6c455c6"/>
+            <rule id="ed1d9efd-77fc-47df-bb6e-f95ac2d05486"/>
+            <rule id="52390da0-69f0-46c7-84dc-b6915cf48a28"/>
+            <rule id="4b55f359-9cc9-4e75-a271-26af42745331"/>
+            <rule id="4e71aff0-5a00-4c96-a494-e2bfab908fd0"/>
+        </vocElt>
+        <vocElt id="com.banque.domain.CarteBancaireRequest/operation/GETTER#0">
+            <rule id="cb563479-0289-4990-b450-3c3cb7c5a64b"/>
+            <rule id="e8c89d12-ceb7-447d-bb59-6e83e3540c29"/>
+            <rule id="ed1d9efd-77fc-47df-bb6e-f95ac2d05486"/>
+        </vocElt>
+        <vocElt id="com.banque.domain.VirementRequest/typeVirement/GETTER#0">
+            <rule id="4b55f359-9cc9-4e75-a271-26af42745331"/>
+            <rule id="4e71aff0-5a00-4c96-a494-e2bfab908fd0"/>
+        </vocElt>
+        <vocElt id="com.banque.domain.AssuranceVieRequest">
+            <rule id="0e1b23b9-f1b1-4f66-8a5c-5ed3e4ca69e1"/>
+            <rule id="11b2468a-1ded-444e-b8fc-0c9240654d3a"/>
+            <rule id="5677693f-029e-467b-846d-ff5e65b09ff9"/>
+            <rule id="d777dfa7-46b6-4d6f-8777-b2cff6c455c6"/>
+            <rule id="18b321ef-ab36-427e-a748-be829832b9c4"/>
+        </vocElt>
+        <vocElt id="com.banque.domain.Decision/decision/SETTER#0">
+            <rule id="cb563479-0289-4990-b450-3c3cb7c5a64b"/>
+            <rule id="b8335782-5b9b-4687-824e-ee0a9245a1e4"/>
+            <rule id="7e90bfff-2676-4cae-9627-2b69d34586ae"/>
+            <rule id="11b2468a-1ded-444e-b8fc-0c9240654d3a"/>
+            <rule id="e8c89d12-ceb7-447d-bb59-6e83e3540c29"/>
+            <rule id="d409e3b7-6554-4786-8b1d-aca8009c4d1f"/>
+            <rule id="5677693f-029e-467b-846d-ff5e65b09ff9"/>
+            <rule id="0e565ecd-c498-4a66-a5fa-e9495c27de25"/>
+            <rule id="cfb91467-8d59-4efc-a0a9-53aab47d0a4f"/>
+            <rule id="2eae5e18-eb08-4764-9a72-8ce417632d06"/>
+            <rule id="3cfc0fd4-9757-4c2c-b70c-40d1350f53d2"/>
+            <rule id="52390da0-69f0-46c7-84dc-b6915cf48a28"/>
+            <rule id="4b55f359-9cc9-4e75-a271-26af42745331"/>
+            <rule id="4e71aff0-5a00-4c96-a494-e2bfab908fd0"/>
+        </vocElt>
+        <vocElt id="com.banque.domain.Decision/ageFinPret/GETTER#0">
+            <rule id="b8335782-5b9b-4687-824e-ee0a9245a1e4"/>
+        </vocElt>
+        <vocElt id="com.banque.domain.VirementRequest/iban/GETTER#0">
+            <rule id="d409e3b7-6554-4786-8b1d-aca8009c4d1f"/>
+        </vocElt>
+        <vocElt id="com.banque.domain.CreditRequest/dureeMois/GETTER#0">
+            <rule id="b0678d19-ed76-48e7-8ab2-ef240a3c1a04"/>
+            <rule id="2eae5e18-eb08-4764-9a72-8ce417632d06"/>
+        </vocElt>
+        <vocElt id="com.banque.domain.VirementRequest">
+            <rule id="d409e3b7-6554-4786-8b1d-aca8009c4d1f"/>
+            <rule id="4b55f359-9cc9-4e75-a271-26af42745331"/>
+            <rule id="4e71aff0-5a00-4c96-a494-e2bfab908fd0"/>
+        </vocElt>
+        <vocElt id="com.banque.domain.CreditRequest">
+            <rule id="b0678d19-ed76-48e7-8ab2-ef240a3c1a04"/>
+            <rule id="40d1de9f-6d3c-4741-9594-7f8af1e6d76d"/>
+            <rule id="cfb91467-8d59-4efc-a0a9-53aab47d0a4f"/>
+            <rule id="2eae5e18-eb08-4764-9a72-8ce417632d06"/>
+        </vocElt>
+        <vocElt id="com.banque.domain.Decision/addRule(java.lang.String)/COLLECTION_ADD#0">
+            <rule id="cb563479-0289-4990-b450-3c3cb7c5a64b"/>
+            <rule id="b8335782-5b9b-4687-824e-ee0a9245a1e4"/>
+            <rule id="b0678d19-ed76-48e7-8ab2-ef240a3c1a04"/>
+            <rule id="7e90bfff-2676-4cae-9627-2b69d34586ae"/>
+            <rule id="11b2468a-1ded-444e-b8fc-0c9240654d3a"/>
+            <rule id="e8c89d12-ceb7-447d-bb59-6e83e3540c29"/>
+            <rule id="d409e3b7-6554-4786-8b1d-aca8009c4d1f"/>
+            <rule id="5677693f-029e-467b-846d-ff5e65b09ff9"/>
+            <rule id="0e565ecd-c498-4a66-a5fa-e9495c27de25"/>
+            <rule id="cfb91467-8d59-4efc-a0a9-53aab47d0a4f"/>
+            <rule id="2eae5e18-eb08-4764-9a72-8ce417632d06"/>
+            <rule id="18b321ef-ab36-427e-a748-be829832b9c4"/>
+            <rule id="0e1b23b9-f1b1-4f66-8a5c-5ed3e4ca69e1"/>
+            <rule id="3cfc0fd4-9757-4c2c-b70c-40d1350f53d2"/>
+            <rule id="40d1de9f-6d3c-4741-9594-7f8af1e6d76d"/>
+            <rule id="d777dfa7-46b6-4d6f-8777-b2cff6c455c6"/>
+            <rule id="ed1d9efd-77fc-47df-bb6e-f95ac2d05486"/>
+            <rule id="52390da0-69f0-46c7-84dc-b6915cf48a28"/>
+            <rule id="4b55f359-9cc9-4e75-a271-26af42745331"/>
+            <rule id="4e71aff0-5a00-4c96-a494-e2bfab908fd0"/>
+        </vocElt>
+        <vocElt id="com.banque.domain.AssuranceVieRequest/operation/GETTER#0">
+            <rule id="0e1b23b9-f1b1-4f66-8a5c-5ed3e4ca69e1"/>
+            <rule id="11b2468a-1ded-444e-b8fc-0c9240654d3a"/>
+            <rule id="d777dfa7-46b6-4d6f-8777-b2cff6c455c6"/>
+            <rule id="18b321ef-ab36-427e-a748-be829832b9c4"/>
+        </vocElt>
+        <vocElt id="com.banque.domain.CarteBancaireRequest">
+            <rule id="cb563479-0289-4990-b450-3c3cb7c5a64b"/>
+            <rule id="e8c89d12-ceb7-447d-bb59-6e83e3540c29"/>
+            <rule id="ed1d9efd-77fc-47df-bb6e-f95ac2d05486"/>
+        </vocElt>
+        <vocElt id="com.banque.domain.VirementRequest/montant/GETTER#0">
+            <rule id="4b55f359-9cc9-4e75-a271-26af42745331"/>
+            <rule id="4e71aff0-5a00-4c96-a494-e2bfab908fd0"/>
+        </vocElt>
+        <vocElt id="com.banque.domain.CreditRequest/montant/GETTER#0">
+            <rule id="40d1de9f-6d3c-4741-9594-7f8af1e6d76d"/>
+            <rule id="cfb91467-8d59-4efc-a0a9-53aab47d0a4f"/>
+        </vocElt>
+        <vocElt id="com.banque.domain.AssuranceVieRequest/montantInitial/GETTER#0">
+            <rule id="11b2468a-1ded-444e-b8fc-0c9240654d3a"/>
+            <rule id="18b321ef-ab36-427e-a748-be829832b9c4"/>
+        </vocElt>
+        <vocElt id="com.banque.domain.AssuranceVieRequest/age/GETTER#0">
+            <rule id="5677693f-029e-467b-846d-ff5e65b09ff9"/>
+        </vocElt>
+    </ruleTable>
+    <vocTable>
+        <rule id="cb563479-0289-4990-b450-3c3cb7c5a64b">
+            <vocElt id="com.banque.domain.CarteBancaireRequest/plafond/GETTER#0"/>
+            <vocElt id="com.banque.domain.Decision"/>
+            <vocElt id="com.banque.domain.Decision/addRule(java.lang.String)/COLLECTION_ADD#0"/>
+            <vocElt id="com.banque.domain.CarteBancaireRequest/operation/GETTER#0"/>
+            <vocElt id="com.banque.domain.CarteBancaireRequest"/>
+            <vocElt id="com.banque.domain.Decision/decision/SETTER#0"/>
+        </rule>
+        <rule id="b8335782-5b9b-4687-824e-ee0a9245a1e4">
+            <vocElt id="com.banque.domain.Decision/ageFinPret/GETTER#0"/>
+            <vocElt id="com.banque.domain.Decision"/>
+            <vocElt id="com.banque.domain.Decision/addRule(java.lang.String)/COLLECTION_ADD#0"/>
+            <vocElt id="com.banque.domain.Decision/decision/SETTER#0"/>
+        </rule>
+        <rule id="b0678d19-ed76-48e7-8ab2-ef240a3c1a04">
+            <vocElt id="com.banque.domain.CreditRequest/dureeMois/GETTER#0"/>
+            <vocElt id="com.banque.domain.CreditRequest"/>
+            <vocElt id="com.banque.domain.Decision/addRule(java.lang.String)/COLLECTION_ADD#0"/>
+            <vocElt id="com.banque.domain.Decision"/>
+        </rule>
+        <rule id="7e90bfff-2676-4cae-9627-2b69d34586ae">
+            <vocElt id="com.banque.domain.Decision/tauxEndettement/GETTER#0"/>
+            <vocElt id="com.banque.domain.Decision"/>
+            <vocElt id="com.banque.domain.Decision/addRule(java.lang.String)/COLLECTION_ADD#0"/>
+            <vocElt id="com.banque.domain.Decision/decision/SETTER#0"/>
+        </rule>
+        <rule id="11b2468a-1ded-444e-b8fc-0c9240654d3a">
+            <vocElt id="com.banque.domain.Decision"/>
+            <vocElt id="com.banque.domain.Decision/addRule(java.lang.String)/COLLECTION_ADD#0"/>
+            <vocElt id="com.banque.domain.AssuranceVieRequest/operation/GETTER#0"/>
+            <vocElt id="com.banque.domain.AssuranceVieRequest"/>
+            <vocElt id="com.banque.domain.AssuranceVieRequest/montantInitial/GETTER#0"/>
+            <vocElt id="com.banque.domain.Decision/decision/SETTER#0"/>
+        </rule>
+        <rule id="e8c89d12-ceb7-447d-bb59-6e83e3540c29">
+            <vocElt id="com.banque.domain.CarteBancaireRequest/plafond/GETTER#0"/>
+            <vocElt id="com.banque.domain.Decision"/>
+            <vocElt id="com.banque.domain.Decision/addRule(java.lang.String)/COLLECTION_ADD#0"/>
+            <vocElt id="com.banque.domain.CarteBancaireRequest/operation/GETTER#0"/>
+            <vocElt id="com.banque.domain.CarteBancaireRequest"/>
+            <vocElt id="com.banque.domain.Decision/decision/SETTER#0"/>
+        </rule>
+        <rule id="d409e3b7-6554-4786-8b1d-aca8009c4d1f">
+            <vocElt id="com.banque.domain.VirementRequest/iban/GETTER#0"/>
+            <vocElt id="com.banque.domain.VirementRequest"/>
+            <vocElt id="com.banque.domain.Decision"/>
+            <vocElt id="com.banque.domain.Decision/addRule(java.lang.String)/COLLECTION_ADD#0"/>
+            <vocElt id="com.banque.domain.Decision/decision/SETTER#0"/>
+        </rule>
+        <rule id="5677693f-029e-467b-846d-ff5e65b09ff9">
+            <vocElt id="com.banque.domain.Decision"/>
+            <vocElt id="com.banque.domain.Decision/addRule(java.lang.String)/COLLECTION_ADD#0"/>
+            <vocElt id="com.banque.domain.AssuranceVieRequest"/>
+            <vocElt id="com.banque.domain.AssuranceVieRequest/age/GETTER#0"/>
+            <vocElt id="com.banque.domain.Decision/decision/SETTER#0"/>
+        </rule>
+        <rule id="0e565ecd-c498-4a66-a5fa-e9495c27de25">
+            <vocElt id="com.banque.domain.Decision/rulesFired/GETTER#0"/>
+            <vocElt id="com.banque.domain.Decision"/>
+            <vocElt id="com.banque.domain.Decision/addRule(java.lang.String)/COLLECTION_ADD#0"/>
+            <vocElt id="com.banque.domain.Decision/decision/SETTER#0"/>
+        </rule>
+        <rule id="cfb91467-8d59-4efc-a0a9-53aab47d0a4f">
+            <vocElt id="com.banque.domain.CreditRequest"/>
+            <vocElt id="com.banque.domain.Decision"/>
+            <vocElt id="com.banque.domain.Decision/addRule(java.lang.String)/COLLECTION_ADD#0"/>
+            <vocElt id="com.banque.domain.CreditRequest/montant/GETTER#0"/>
+            <vocElt id="com.banque.domain.Decision/decision/SETTER#0"/>
+        </rule>
+        <rule id="2eae5e18-eb08-4764-9a72-8ce417632d06">
+            <vocElt id="com.banque.domain.CreditRequest/dureeMois/GETTER#0"/>
+            <vocElt id="com.banque.domain.CreditRequest"/>
+            <vocElt id="com.banque.domain.Decision"/>
+            <vocElt id="com.banque.domain.Decision/addRule(java.lang.String)/COLLECTION_ADD#0"/>
+            <vocElt id="com.banque.domain.Decision/decision/SETTER#0"/>
+        </rule>
+        <rule id="18b321ef-ab36-427e-a748-be829832b9c4">
+            <vocElt id="com.banque.domain.Decision/addRule(java.lang.String)/COLLECTION_ADD#0"/>
+            <vocElt id="com.banque.domain.Decision"/>
+            <vocElt id="com.banque.domain.AssuranceVieRequest/operation/GETTER#0"/>
+            <vocElt id="com.banque.domain.AssuranceVieRequest"/>
+            <vocElt id="com.banque.domain.AssuranceVieRequest/montantInitial/GETTER#0"/>
+        </rule>
+        <rule id="0e1b23b9-f1b1-4f66-8a5c-5ed3e4ca69e1">
+            <vocElt id="com.banque.domain.Decision/addRule(java.lang.String)/COLLECTION_ADD#0"/>
+            <vocElt id="com.banque.domain.Decision"/>
+            <vocElt id="com.banque.domain.AssuranceVieRequest/operation/GETTER#0"/>
+            <vocElt id="com.banque.domain.AssuranceVieRequest"/>
+        </rule>
+        <rule id="3cfc0fd4-9757-4c2c-b70c-40d1350f53d2">
+            <vocElt id="com.banque.domain.Decision/rulesFired/GETTER#0"/>
+            <vocElt id="com.banque.domain.Decision"/>
+            <vocElt id="com.banque.domain.Decision/addRule(java.lang.String)/COLLECTION_ADD#0"/>
+            <vocElt id="com.banque.domain.Decision/decision/SETTER#0"/>
+        </rule>
+        <rule id="40d1de9f-6d3c-4741-9594-7f8af1e6d76d">
+            <vocElt id="com.banque.domain.CreditRequest"/>
+            <vocElt id="com.banque.domain.Decision/addRule(java.lang.String)/COLLECTION_ADD#0"/>
+            <vocElt id="com.banque.domain.Decision"/>
+            <vocElt id="com.banque.domain.CreditRequest/montant/GETTER#0"/>
+        </rule>
+        <rule id="d777dfa7-46b6-4d6f-8777-b2cff6c455c6">
+            <vocElt id="com.banque.domain.Decision/addRule(java.lang.String)/COLLECTION_ADD#0"/>
+            <vocElt id="com.banque.domain.Decision"/>
+            <vocElt id="com.banque.domain.AssuranceVieRequest/operation/GETTER#0"/>
+            <vocElt id="com.banque.domain.AssuranceVieRequest"/>
+        </rule>
+        <rule id="ed1d9efd-77fc-47df-bb6e-f95ac2d05486">
+            <vocElt id="com.banque.domain.CarteBancaireRequest/plafond/GETTER#0"/>
+            <vocElt id="com.banque.domain.Decision/addRule(java.lang.String)/COLLECTION_ADD#0"/>
+            <vocElt id="com.banque.domain.Decision"/>
+            <vocElt id="com.banque.domain.CarteBancaireRequest/operation/GETTER#0"/>
+            <vocElt id="com.banque.domain.CarteBancaireRequest"/>
+        </rule>
+        <rule id="52390da0-69f0-46c7-84dc-b6915cf48a28">
+            <vocElt id="com.banque.domain.Decision/tauxEndettement/GETTER#0"/>
+            <vocElt id="com.banque.domain.Decision"/>
+            <vocElt id="com.banque.domain.Decision/addRule(java.lang.String)/COLLECTION_ADD#0"/>
+            <vocElt id="com.banque.domain.Decision/decision/SETTER#0"/>
+        </rule>
+        <rule id="4b55f359-9cc9-4e75-a271-26af42745331">
+            <vocElt id="com.banque.domain.VirementRequest"/>
+            <vocElt id="com.banque.domain.Decision"/>
+            <vocElt id="com.banque.domain.Decision/addRule(java.lang.String)/COLLECTION_ADD#0"/>
+            <vocElt id="com.banque.domain.VirementRequest/typeVirement/GETTER#0"/>
+            <vocElt id="com.banque.domain.VirementRequest/montant/GETTER#0"/>
+            <vocElt id="com.banque.domain.Decision/decision/SETTER#0"/>
+        </rule>
+        <rule id="4e71aff0-5a00-4c96-a494-e2bfab908fd0">
+            <vocElt id="com.banque.domain.VirementRequest"/>
+            <vocElt id="com.banque.domain.Decision"/>
+            <vocElt id="com.banque.domain.Decision/addRule(java.lang.String)/COLLECTION_ADD#0"/>
+            <vocElt id="com.banque.domain.VirementRequest/typeVirement/GETTER#0"/>
+            <vocElt id="com.banque.domain.VirementRequest/montant/GETTER#0"/>
+            <vocElt id="com.banque.domain.Decision/decision/SETTER#0"/>
+        </rule>
+    </vocTable>
+    <ruleParamTable>
+        <param id="request">
+            <rule id="b0678d19-ed76-48e7-8ab2-ef240a3c1a04"/>
+            <rule id="40d1de9f-6d3c-4741-9594-7f8af1e6d76d"/>
+            <rule id="cfb91467-8d59-4efc-a0a9-53aab47d0a4f"/>
+            <rule id="2eae5e18-eb08-4764-9a72-8ce417632d06"/>
+        </param>
+        <param id="responseVirement">
+            <rule id="d409e3b7-6554-4786-8b1d-aca8009c4d1f"/>
+            <rule id="4b55f359-9cc9-4e75-a271-26af42745331"/>
+            <rule id="4e71aff0-5a00-4c96-a494-e2bfab908fd0"/>
+        </param>
+        <param id="response">
+            <rule id="b8335782-5b9b-4687-824e-ee0a9245a1e4"/>
+            <rule id="b0678d19-ed76-48e7-8ab2-ef240a3c1a04"/>
+            <rule id="7e90bfff-2676-4cae-9627-2b69d34586ae"/>
+            <rule id="3cfc0fd4-9757-4c2c-b70c-40d1350f53d2"/>
+            <rule id="40d1de9f-6d3c-4741-9594-7f8af1e6d76d"/>
+            <rule id="0e565ecd-c498-4a66-a5fa-e9495c27de25"/>
+            <rule id="cfb91467-8d59-4efc-a0a9-53aab47d0a4f"/>
+            <rule id="52390da0-69f0-46c7-84dc-b6915cf48a28"/>
+            <rule id="2eae5e18-eb08-4764-9a72-8ce417632d06"/>
+        </param>
+        <param id="requestVirement">
+            <rule id="d409e3b7-6554-4786-8b1d-aca8009c4d1f"/>
+            <rule id="4b55f359-9cc9-4e75-a271-26af42745331"/>
+            <rule id="4e71aff0-5a00-4c96-a494-e2bfab908fd0"/>
+        </param>
+        <param id="requestAssurance">
+            <rule id="0e1b23b9-f1b1-4f66-8a5c-5ed3e4ca69e1"/>
+            <rule id="11b2468a-1ded-444e-b8fc-0c9240654d3a"/>
+            <rule id="5677693f-029e-467b-846d-ff5e65b09ff9"/>
+            <rule id="d777dfa7-46b6-4d6f-8777-b2cff6c455c6"/>
+            <rule id="18b321ef-ab36-427e-a748-be829832b9c4"/>
+        </param>
+        <param id="responseAssurance">
+            <rule id="0e1b23b9-f1b1-4f66-8a5c-5ed3e4ca69e1"/>
+            <rule id="11b2468a-1ded-444e-b8fc-0c9240654d3a"/>
+            <rule id="5677693f-029e-467b-846d-ff5e65b09ff9"/>
+            <rule id="d777dfa7-46b6-4d6f-8777-b2cff6c455c6"/>
+            <rule id="18b321ef-ab36-427e-a748-be829832b9c4"/>
+        </param>
+        <param id="responseCarte">
+            <rule id="cb563479-0289-4990-b450-3c3cb7c5a64b"/>
+            <rule id="e8c89d12-ceb7-447d-bb59-6e83e3540c29"/>
+            <rule id="ed1d9efd-77fc-47df-bb6e-f95ac2d05486"/>
+        </param>
+        <param id="requestCarte">
+            <rule id="cb563479-0289-4990-b450-3c3cb7c5a64b"/>
+            <rule id="e8c89d12-ceb7-447d-bb59-6e83e3540c29"/>
+            <rule id="ed1d9efd-77fc-47df-bb6e-f95ac2d05486"/>
+        </param>
+    </ruleParamTable>
+    <paramTable>
+        <rule id="cb563479-0289-4990-b450-3c3cb7c5a64b">
+            <param id="responseCarte"/>
+            <param id="requestCarte"/>
+        </rule>
+        <rule id="b8335782-5b9b-4687-824e-ee0a9245a1e4">
+            <param id="response"/>
+        </rule>
+        <rule id="b0678d19-ed76-48e7-8ab2-ef240a3c1a04">
+            <param id="request"/>
+            <param id="response"/>
+        </rule>
+        <rule id="7e90bfff-2676-4cae-9627-2b69d34586ae">
+            <param id="response"/>
+        </rule>
+        <rule id="11b2468a-1ded-444e-b8fc-0c9240654d3a">
+            <param id="requestAssurance"/>
+            <param id="responseAssurance"/>
+        </rule>
+        <rule id="e8c89d12-ceb7-447d-bb59-6e83e3540c29">
+            <param id="responseCarte"/>
+            <param id="requestCarte"/>
+        </rule>
+        <rule id="d409e3b7-6554-4786-8b1d-aca8009c4d1f">
+            <param id="responseVirement"/>
+            <param id="requestVirement"/>
+        </rule>
+        <rule id="5677693f-029e-467b-846d-ff5e65b09ff9">
+            <param id="requestAssurance"/>
+            <param id="responseAssurance"/>
+        </rule>
+        <rule id="0e565ecd-c498-4a66-a5fa-e9495c27de25">
+            <param id="response"/>
+        </rule>
+        <rule id="cfb91467-8d59-4efc-a0a9-53aab47d0a4f">
+            <param id="request"/>
+            <param id="response"/>
+        </rule>
+        <rule id="2eae5e18-eb08-4764-9a72-8ce417632d06">
+            <param id="request"/>
+            <param id="response"/>
+        </rule>
+        <rule id="18b321ef-ab36-427e-a748-be829832b9c4">
+            <param id="requestAssurance"/>
+            <param id="responseAssurance"/>
+        </rule>
+        <rule id="0e1b23b9-f1b1-4f66-8a5c-5ed3e4ca69e1">
+            <param id="requestAssurance"/>
+            <param id="responseAssurance"/>
+        </rule>
+        <rule id="3cfc0fd4-9757-4c2c-b70c-40d1350f53d2">
+            <param id="response"/>
+        </rule>
+        <rule id="40d1de9f-6d3c-4741-9594-7f8af1e6d76d">
+            <param id="request"/>
+            <param id="response"/>
+        </rule>
+        <rule id="d777dfa7-46b6-4d6f-8777-b2cff6c455c6">
+            <param id="requestAssurance"/>
+            <param id="responseAssurance"/>
+        </rule>
+        <rule id="ed1d9efd-77fc-47df-bb6e-f95ac2d05486">
+            <param id="responseCarte"/>
+            <param id="requestCarte"/>
+        </rule>
+        <rule id="52390da0-69f0-46c7-84dc-b6915cf48a28">
+            <param id="response"/>
+        </rule>
+        <rule id="4b55f359-9cc9-4e75-a271-26af42745331">
+            <param id="responseVirement"/>
+            <param id="requestVirement"/>
+        </rule>
+        <rule id="4e71aff0-5a00-4c96-a494-e2bfab908fd0">
+            <param id="responseVirement"/>
+            <param id="requestVirement"/>
+        </rule>
+    </paramTable>
+    <projectTable/>
+    <variableTable>
+        <param id="01fb32cb-7149-4433-aece-df6f103da8a8">
+            <rule id="b8335782-5b9b-4687-824e-ee0a9245a1e4"/>
+            <rule id="b0678d19-ed76-48e7-8ab2-ef240a3c1a04"/>
+            <rule id="7e90bfff-2676-4cae-9627-2b69d34586ae"/>
+            <rule id="3cfc0fd4-9757-4c2c-b70c-40d1350f53d2"/>
+            <rule id="40d1de9f-6d3c-4741-9594-7f8af1e6d76d"/>
+            <rule id="0e565ecd-c498-4a66-a5fa-e9495c27de25"/>
+            <rule id="cfb91467-8d59-4efc-a0a9-53aab47d0a4f"/>
+            <rule id="52390da0-69f0-46c7-84dc-b6915cf48a28"/>
+            <rule id="2eae5e18-eb08-4764-9a72-8ce417632d06"/>
+        </param>
+        <param id="75119e1f-6e7e-4a6d-b523-d4cf3bde4fe8">
+            <rule id="0e1b23b9-f1b1-4f66-8a5c-5ed3e4ca69e1"/>
+            <rule id="11b2468a-1ded-444e-b8fc-0c9240654d3a"/>
+            <rule id="5677693f-029e-467b-846d-ff5e65b09ff9"/>
+            <rule id="d777dfa7-46b6-4d6f-8777-b2cff6c455c6"/>
+            <rule id="18b321ef-ab36-427e-a748-be829832b9c4"/>
+        </param>
+        <param id="00db8c4d-0106-487d-b926-c896a94bd7d7">
+            <rule id="d409e3b7-6554-4786-8b1d-aca8009c4d1f"/>
+            <rule id="4b55f359-9cc9-4e75-a271-26af42745331"/>
+            <rule id="4e71aff0-5a00-4c96-a494-e2bfab908fd0"/>
+        </param>
+        <param id="4fe37e7b-3cc8-4693-bd61-b915c6c0de73">
+            <rule id="cb563479-0289-4990-b450-3c3cb7c5a64b"/>
+            <rule id="e8c89d12-ceb7-447d-bb59-6e83e3540c29"/>
+            <rule id="ed1d9efd-77fc-47df-bb6e-f95ac2d05486"/>
+        </param>
+    </variableTable>
+    <ruleVocFileTable>
+        <vocFile file="/BRMS/BOM/modèle_fr_FR.voc" id="63d3474c-b4ba-4d0d-af77-587bb54155a0">
+            <rule id="cb563479-0289-4990-b450-3c3cb7c5a64b"/>
+            <rule id="b8335782-5b9b-4687-824e-ee0a9245a1e4"/>
+            <rule id="b0678d19-ed76-48e7-8ab2-ef240a3c1a04"/>
+            <rule id="7e90bfff-2676-4cae-9627-2b69d34586ae"/>
+            <rule id="11b2468a-1ded-444e-b8fc-0c9240654d3a"/>
+            <rule id="e8c89d12-ceb7-447d-bb59-6e83e3540c29"/>
+            <rule id="d409e3b7-6554-4786-8b1d-aca8009c4d1f"/>
+            <rule id="5677693f-029e-467b-846d-ff5e65b09ff9"/>
+            <rule id="0e565ecd-c498-4a66-a5fa-e9495c27de25"/>
+            <rule id="cfb91467-8d59-4efc-a0a9-53aab47d0a4f"/>
+            <rule id="2eae5e18-eb08-4764-9a72-8ce417632d06"/>
+            <rule id="18b321ef-ab36-427e-a748-be829832b9c4"/>
+            <rule id="0e1b23b9-f1b1-4f66-8a5c-5ed3e4ca69e1"/>
+            <rule id="3cfc0fd4-9757-4c2c-b70c-40d1350f53d2"/>
+            <rule id="40d1de9f-6d3c-4741-9594-7f8af1e6d76d"/>
+            <rule id="d777dfa7-46b6-4d6f-8777-b2cff6c455c6"/>
+            <rule id="ed1d9efd-77fc-47df-bb6e-f95ac2d05486"/>
+            <rule id="52390da0-69f0-46c7-84dc-b6915cf48a28"/>
+            <rule id="4b55f359-9cc9-4e75-a271-26af42745331"/>
+            <rule id="4e71aff0-5a00-4c96-a494-e2bfab908fd0"/>
+        </vocFile>
+    </ruleVocFileTable>
+    <resourceTable>
+        <resource file="/BRMS/règles/eligibilite_credit_consommation/motif_endettement.brl" id="7e90bfff-2676-4cae-9627-2b69d34586ae"/>
+        <resource file="/BRMS/règles/carte_bancaire/carte_plafond_a_preciser.brl" id="e8c89d12-ceb7-447d-bb59-6e83e3540c29"/>
+        <resource file="/BRMS/règles/carte_bancaire/carte_plafond_dans_limite.brl" id="ed1d9efd-77fc-47df-bb6e-f95ac2d05486"/>
+        <resource file="/BRMS/règles/virement/virement_international_eleve.brl" id="4e71aff0-5a00-4c96-a494-e2bfab908fd0"/>
+        <resource file="/BRMS/règles/assurance/assurance_versement_libre.brl" id="0e1b23b9-f1b1-4f66-8a5c-5ed3e4ca69e1"/>
+        <resource file="/BRMS/règles/assurance/assurance_rachat_autorise.brl" id="d777dfa7-46b6-4d6f-8777-b2cff6c455c6"/>
+        <resource file="/BRMS/règles/eligibilite_credit_immobilier/motif_montant_insuffisant.brl" id="40d1de9f-6d3c-4741-9594-7f8af1e6d76d"/>
+        <resource file="/BRMS/règles/eligibilite_credit_immobilier/motif_taux_endettement.brl" id="52390da0-69f0-46c7-84dc-b6915cf48a28"/>
+        <resource file="/BRMS/règles/eligibilite_credit_consommation/conso_montant_max.brl" id="cfb91467-8d59-4efc-a0a9-53aab47d0a4f"/>
+        <resource file="/BRMS/règles/assurance/assurance_age_depasse.brl" id="5677693f-029e-467b-846d-ff5e65b09ff9"/>
+        <resource file="/BRMS/règles/eligibilite_credit_consommation/conso_duree_max.brl" id="2eae5e18-eb08-4764-9a72-8ce417632d06"/>
+        <resource file="/BRMS/règles/eligibilite_credit_immobilier/motif_duree_trop_longue.brl" id="b0678d19-ed76-48e7-8ab2-ef240a3c1a04"/>
+        <resource file="/BRMS/règles/eligibilite_credit_immobilier/eligible.brl" id="0e565ecd-c498-4a66-a5fa-e9495c27de25"/>
+        <resource file="/BRMS/règles/virement/virement_standard_eleve.brl" id="4b55f359-9cc9-4e75-a271-26af42745331"/>
+        <resource file="/BRMS/règles/assurance/assurance_versement_initial_ok.brl" id="18b321ef-ab36-427e-a748-be829832b9c4"/>
+        <resource file="/BRMS/règles/assurance/assurance_versement_initial_insuffisant.brl" id="11b2468a-1ded-444e-b8fc-0c9240654d3a"/>
+        <resource file="/BRMS/règles/parameters_assurance.var" id="75119e1f-6e7e-4a6d-b523-d4cf3bde4fe8"/>
+        <resource file="/BRMS/règles/eligibilite_credit_consommation/eligible.brl" id="3cfc0fd4-9757-4c2c-b70c-40d1350f53d2"/>
+        <resource file="/BRMS/règles/carte_bancaire/carte_plafond_excessif.brl" id="cb563479-0289-4990-b450-3c3cb7c5a64b"/>
+        <resource file="/BRMS/règles/parameters_carte.var" id="4fe37e7b-3cc8-4693-bd61-b915c6c0de73"/>
+        <resource file="/BRMS/règles/eligibilite_credit_immobilier/motif_age.brl" id="b8335782-5b9b-4687-824e-ee0a9245a1e4"/>
+        <resource file="/BRMS/règles/virement/virement_iban_manquant.brl" id="d409e3b7-6554-4786-8b1d-aca8009c4d1f"/>
+    </resourceTable>
+</impactTables>

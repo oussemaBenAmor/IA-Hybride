@@ -1,0 +1,72 @@
+﻿
+
+# === Secrets / configuration locale ===
+.env
+*.env
+!.env.example
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+pip-log.txt
+*.log
+
+# === Environnements virtuels ===
+.venv/
+venv/
+ENV/
+env/
+
+# === Tests / couverture ===
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+
+# === IDE ===
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# === LangGraph / PostgreSQL checkpoints ===
+checkpoints/
+*.db
+*.sqlite3
+
+# === Ollama / Modèles locaux ===
+models/
+*.gguf
+*.bin
+*.safetensors
+
+# === Streamlit ===
+# On ignore uniquement les secrets Streamlit, pas le thème (config.toml)
+frontend/.streamlit/secrets.toml
+
+# === Rapports générés ===
+rapport_execution*.xlsx
+
+# === Résidus divers ===
+fastapi-service/GraphState

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.base:VariableSet xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.base="http://ilog.rules.studio/model/base.ecore">
+  <name>parameters_carte</name>
+  <uuid>4fe37e7b-3cc8-4693-bd61-b915c6c0de73</uuid>
+  <variables name="requestCarte" type="com.banque.domain.CarteBancaireRequest" initialValue="new com.banque.domain.CarteBancaireRequest()" verbalization="requestCarte"/>
+  <variables name="responseCarte" type="com.banque.domain.Decision" initialValue="" verbalization="responseCarte"/>
+</ilog.rules.studio.model.base:VariableSet>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.ruleflow:RuleFlow xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.ruleflow="http://ilog.rules.studio/model/ruleflow.ecore">
+  <name>flux_credit</name>
+  <uuid>bdb5986d-38d6-4650-85ab-3aa5773aeac5</uuid>
+  <locale>fr_FR</locale>
+  <categories>any</categories>
+  <rfModel>
+<Ruleflow xmlns="http://schemas.ilog.com/Rules/7.0/Ruleflow">
+  <Body>
+    <TaskList>
+      <StartTask Identifier="task_0"/>
+      <RuleTask ExecutionMode="RetePlus" ExitCriteria="None" Identifier="task_verification" Ordering="Default">
+        <InitialActions Language="irl"><![CDATA[response = new com.banque.domain.Decision();
+
+response.decision = "REFUSE";
+response.calculer(request.montant, request.revenuMensuel, request.dureeMois, request.age);
+
+
+
+
+
+
+
+
+
+]]></InitialActions>
+        <RuleList>
+          <Rule Uuid="b0678d19-ed76-48e7-8ab2-ef240a3c1a04"/>
+          <Rule Uuid="40d1de9f-6d3c-4741-9594-7f8af1e6d76d"/>
+          <Rule Uuid="52390da0-69f0-46c7-84dc-b6915cf48a28"/>
+          <Rule Uuid="b8335782-5b9b-4687-824e-ee0a9245a1e4"/>
+        </RuleList>
+      </RuleTask>
+      <RuleTask ExecutionMode="RetePlus" ExitCriteria="None" Identifier="task_conclusion" Ordering="Default">
+        <RuleList>
+          <Rule Uuid="0e565ecd-c498-4a66-a5fa-e9495c27de25"/>
+        </RuleList>
+      </RuleTask>
+      <StopTask Identifier="task_2"/>
+    </TaskList>
+    <NodeList>
+      <TaskNode Identifier="node2" Task="task_0"/>
+      <TaskNode Identifier="node3" Task="task_verification"/>
+      <TaskNode Identifier="node4" Task="task_2"/>
+      <TaskNode Identifier="node5" Task="task_conclusion"/>
+    </NodeList>
+    <TransitionList>
+      <Transition Identifier="link5" Source="node2" Target="node3"/>
+      <Transition Identifier="link6" Source="node3" Target="node5"/>
+      <Transition Identifier="link9" Source="node5" Target="node4"/>
+    </TransitionList>
+  </Body>
+  <Resources>
+    <ResourceSet Locale="fr_FR">
+      <Data Name="node3#y">188.0</Data>
+      <Data Name="node4#x">171.0</Data>
+      <Data Name="node2#y">115.0</Data>
+      <Data Name="node3#x">208.0</Data>
+      <Data Name="node2#x">210.0</Data>
+      <Data Name="node5#y">255.5</Data>
+      <Data Name="node4#y">372.0</Data>
+      <Data Name="node5#x">92.5</Data>
+    </ResourceSet>
+  </Resources>
+  <Properties/>
+</Ruleflow>
+</rfModel>
+</ilog.rules.studio.model.ruleflow:RuleFlow>

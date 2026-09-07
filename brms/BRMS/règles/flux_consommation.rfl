@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.ruleflow:RuleFlow xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.ruleflow="http://ilog.rules.studio/model/ruleflow.ecore">
+  <name>flux_consommation</name>
+  <uuid>41471764-f309-4392-b920-287e8ca050f4</uuid>
+  <locale>fr_FR</locale>
+  <categories>any</categories>
+  <rfModel>
+<Ruleflow xmlns="http://schemas.ilog.com/Rules/7.0/Ruleflow">
+  <Body>
+    <TaskList>
+      <StartTask Identifier="task_0"/>
+      <RuleTask ExecutionMode="RetePlus" ExitCriteria="None" Identifier="task_verification" Ordering="Default">
+        <InitialActions Language="irl"><![CDATA[response = new com.banque.domain.Decision();
+response.decision = "REFUSE";
+response.calculer(request.montant, request.revenuMensuel, request.dureeMois, request.age);
+]]></InitialActions>
+        <RuleList>
+          <Rule Uuid="cfb91467-8d59-4efc-a0a9-53aab47d0a4f"/>
+          <Rule Uuid="2eae5e18-eb08-4764-9a72-8ce417632d06"/>
+          <Rule Uuid="7e90bfff-2676-4cae-9627-2b69d34586ae"/>
+        </RuleList>
+      </RuleTask>
+      <RuleTask ExecutionMode="RetePlus" ExitCriteria="None" Identifier="task_conclusion" Ordering="Default">
+        <RuleList>
+          <Rule Uuid="3cfc0fd4-9757-4c2c-b70c-40d1350f53d2"/>
+        </RuleList>
+      </RuleTask>
+      <StopTask Identifier="task_3"/>
+    </TaskList>
+    <NodeList>
+      <TaskNode Identifier="node2" Task="task_0"/>
+      <TaskNode Identifier="node3" Task="task_verification"/>
+      <TaskNode Identifier="node4" Task="task_conclusion"/>
+      <TaskNode Identifier="node5" Task="task_3"/>
+    </NodeList>
+    <TransitionList>
+      <Transition Identifier="link6" Source="node2" Target="node3"/>
+      <Transition Identifier="link7" Source="node3" Target="node4"/>
+      <Transition Identifier="link8" Source="node4" Target="node5"/>
+    </TransitionList>
+  </Body>
+  <Resources>
+    <ResourceSet Locale="fr_FR">
+      <Data Name="node3#y">246.0</Data>
+      <Data Name="node4#x">411.0</Data>
+      <Data Name="node2#y">150.0</Data>
+      <Data Name="node3#x">417.0</Data>
+      <Data Name="node2#x">414.0</Data>
+      <Data Name="node5#y">441.0</Data>
+      <Data Name="node4#y">342.0</Data>
+      <Data Name="node5#x">413.0</Data>
+    </ResourceSet>
+  </Resources>
+  <Properties/>
+</Ruleflow>
+</rfModel>
+</ilog.rules.studio.model.ruleflow:RuleFlow>

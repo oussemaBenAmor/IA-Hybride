@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.brl:ActionRule xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.brl="http://ilog.rules.studio/model/brl.ecore">
+  <name>motif_montant_insuffisant</name>
+  <uuid>40d1de9f-6d3c-4741-9594-7f8af1e6d76d</uuid>
+  <locale>fr_FR</locale>
+  <definition><![CDATA[si 
+	 le montant de request est plus petit que 10000
+	 
+alors ajouter "MONTANT_INSUFFISANT" aux règles déclenchées de response  ; ]]></definition>
+</ilog.rules.studio.model.brl:ActionRule>

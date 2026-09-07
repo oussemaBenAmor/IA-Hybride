@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.base:RulePackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.base="http://ilog.rules.studio/model/base.ecore">
+  <name>carte_bancaire</name>
+  <uuid>e9eb8bff-41d2-44d5-a80c-f95c64d30f1e</uuid>
+</ilog.rules.studio.model.base:RulePackage>

@@ -1,0 +1,13 @@
+# À placer dans : frontend/.streamlit/config.toml
+#
+# IMPORTANT : ce fichier ne force PLUS le thème. Le mode Light / Dark / System
+# est celui que l'utilisateur choisit dans le menu Streamlit (☰ → Settings).
+# On ne met donc PAS de "base = dark". On personnalise juste la couleur d'accent
+# et la police, qui s'appliquent aussi bien en clair qu'en sombre.
+
+[theme]
+primaryColor = "#3b5bdb"
+font = "sans serif"
+
+[server]
+runOnSave = true

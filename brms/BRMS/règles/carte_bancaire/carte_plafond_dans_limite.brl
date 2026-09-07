@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilog.rules.studio.model.brl:ActionRule xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ilog.rules.studio.model.brl="http://ilog.rules.studio/model/brl.ecore">
+  <name>carte_plafond_dans_limite</name>
+  <uuid>ed1d9efd-77fc-47df-bb6e-f95ac2d05486</uuid>
+  <locale>fr_FR</locale>
+  <definition><![CDATA[si l'operation de requestCarte est "plafond" et le plafond de requestCarte est plus grand que 0 et le plafond de requestCarte est au plus 5000
+alors ajouter "regle_plafond_dans_limite" aux règles déclenchées de responseCarte ;]]></definition>
+</ilog.rules.studio.model.brl:ActionRule>

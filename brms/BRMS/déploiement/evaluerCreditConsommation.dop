@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.ibm.rules.studio.model.decisionservice:Operation xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.ibm.rules.studio.model.decisionservice="http://com.ibm.rules.studio/model/decisionservice.ecore" xmlns:ilog.rules.studio.model.query.extractor="http://ilog.rules.studio/model/query/extractor.ecore" rulesetName="evaluerCreditConsommation" usingRuleflow="true" ruleflowName="flux_consommation" targetRuleProjectName="BRMS">
+  <name>evaluerCreditConsommation</name>
+  <uuid>6b8317b9-f260-4676-9633-f25f42eae0e5</uuid>
+  <referencedVariables variableName="request" variableSetName="parameters">
+    <variableSet href="../règles/parameters.var#01fb32cb-7149-4433-aece-df6f103da8a8"/>
+  </referencedVariables>
+  <referencedVariables variableName="response" variableSetName="parameters" direction="OUT">
+    <variableSet href="../règles/parameters.var#01fb32cb-7149-4433-aece-df6f103da8a8"/>
+  </referencedVariables>
+  <ruleflow href="../règles/flux_consommation.rfl#41471764-f309-4392-b920-287e8ca050f4"/>
+  <extractor xsi:type="ilog.rules.studio.model.query.extractor:QueryExtractor" name="evaluerCreditConsommation_extractor" validator="Default Validator"/>
+  <targetRuleProject href="../../BRMS#e2959939-b982-40b7-8ec4-993cbc582834"/>
+</com.ibm.rules.studio.model.decisionservice:Operation>

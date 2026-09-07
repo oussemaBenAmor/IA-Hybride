@@ -1,0 +1,17 @@
+IlrNewElementWizardPage.IlrNewBRLRuleWizard.IlrNewBRLRuleWizardPage.LastExtendedClassSelecdted=ActionRule
+IlrNewElementWizardPage.IlrNewDecisionTableWizard.IlrNewDecisionTableWizardPage.LastExtendedClassSelecdted=DecisionTable
+IlrNewElementWizardPage.IlrNewRuleflowWizard.NewElementNamePage.LastExtendedClassSelecdted=RuleFlow
+content_assist_proposals_background=255,255,255
+content_assist_proposals_foreground=0,0,0
+eclipse.preferences.version=1
+irl_comment_color=63,127,95
+irl_constant_color=127,127,159
+irl_cursor_line_color=232,242,254
+irl_keyword_color=127,0,85
+irl_line_number_ruler_color=120,120,120
+irl_matching_brackets_color=127,0,85
+irl_printMarginColor=176,180,185
+irl_string_color=42,0,255
+irl_type_color=127,0,85
+remote.help.preferences.initialized=true
+spelling_locale_initialized=true
